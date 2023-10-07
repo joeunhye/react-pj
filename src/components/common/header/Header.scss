@@ -1,4 +1,5 @@
 @import '/src/styles/Variable.scss';
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
 
 header {
 	width: 100%;
@@ -6,6 +7,11 @@ header {
 	border-bottom: 1px solid #ddd;
 	display: flex;
 	justify-content: space-between;
+
+	h1 {
+		font: bold 1.3rem/1 'nanum myeongjo';
+		color: #222;
+	}
 
 	ul {
 		display: flex;
