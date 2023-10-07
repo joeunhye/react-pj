@@ -1,1 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+
+.layout {
+	width: 70vw;
+	margin: 150px auto;
+	min-height: 60vh;
+
+	h1 {
+		font: normal 80px/1 'nanum myeongjo';
+		color: #444;
+		margin-bottom: 30px;
+	}
+}

@@ -1,9 +1,6 @@
+import Layout from '../../common/layout/Layout';
 import './Gallery.scss';
 
 export default function Gallery() {
-	return (
-		<>
-			<h1>Gallery</h1>
-		</>
-	);
+	return <Layout title={'Gallery'}></Layout>;
 }
