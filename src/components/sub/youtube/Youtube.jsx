@@ -1,3 +1,7 @@
 export default function Youtube() {
-	return <></>;
+	return (
+		<>
+			<h1>Youtube</h1>
+		</>
+	);
 }

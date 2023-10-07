@@ -1,1 +1,15 @@
 @import '/src/styles/Variable.scss';
+
+header {
+	width: 100%;
+	padding: 30px 15vw;
+	border-bottom: 1px solid #ddd;
+	display: flex;
+	justify-content: space-between;
+
+	ul {
+		display: flex;
+		gap: 30px;
+		align-items: center;
+	}
+}

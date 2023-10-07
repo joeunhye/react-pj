@@ -1,5 +1,9 @@
 import Layout from '../../common/layout/Layout';
 
 export default function Department() {
-	return <></>;
+	return (
+		<>
+			<h1>Department</h1>
+		</>
+	);
 }

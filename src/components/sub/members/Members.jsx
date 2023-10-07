@@ -1,5 +1,9 @@
 import './Members.scss';
 
 export default function Members() {
-	return <></>;
+	return (
+		<>
+			<h1>Members</h1>
+		</>
+	);
 }
