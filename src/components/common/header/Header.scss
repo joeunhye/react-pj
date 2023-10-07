@@ -11,5 +11,12 @@ header {
 		display: flex;
 		gap: 30px;
 		align-items: center;
+		li a {
+			color: #555;
+			&.on {
+				color: purple;
+				font-weight: 600;
+			}
+		}
 	}
 }
