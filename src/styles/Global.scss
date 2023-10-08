@@ -13,5 +13,13 @@ a {
 	color: inherit;
 }
 body {
-	height: 300vh;
+}
+html {
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
+	&::-webkit-scrollbar-thumb {
+		border-radius: 5px;
+		background: lightsalmon;
+	}
 }

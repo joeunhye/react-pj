@@ -1,20 +1,16 @@
 import { useEffect, useRef } from 'react';
 import './Layout.scss';
+import { useSplitText } from '../../../hooks/useSplitText';
 
 export default function Layout({ title, children }) {
 	let newClass = title.toLowerCase().split(' ').join('_');
+
 	const refTitle = useRef(null);
 	const refFrame = useRef(null);
-	useEffect(() => {
-		let text = refTitle.current.innerText;
-		let tags = '';
-		let count = 0;
+	const splitText = useSplitText();
 
-		for (let letter of text) {
-			tags += `<span style='display:inline-block; transition-delay:${0.1 * count}s'>${letter}</span>`;
-			count++;
-		}
-		refTitle.current.innerHTML = tags;
+	useEffect(() => {
+		splitText(refTitle);
 		setTimeout(() => {
 			refFrame.current.classList.add('on');
 		}, 300);
