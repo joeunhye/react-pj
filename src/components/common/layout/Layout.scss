@@ -4,10 +4,29 @@
 	width: 70vw;
 	margin: 150px auto;
 	min-height: 60vh;
+	transition: 0.5s;
+	transform: translateY(200px);
+	opacity: 0;
 
 	h1 {
 		font: normal 80px/1 'nanum myeongjo';
 		color: #444;
 		margin-bottom: 30px;
+
+		span {
+			opacity: 0;
+			transform: scale(3);
+			transition-delay: 0.5s;
+		}
+	}
+	&.on {
+		opacity: 1;
+		transform: translateY(0);
+		h1 {
+			span {
+				opacity: 1;
+				transform: scale(1);
+			}
+		}
 	}
 }

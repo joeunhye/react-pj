@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 export default function Modal() {
 	const [num, setNum] = useState(0);
 	useEffect(() => {
-		console.log('컴포넌트 마운트 시 호출');
+		// console.log('컴포넌트 마운트 시 호출');
 		document.body.style.overflow = 'hidden';
 
 		return () => {
@@ -14,7 +14,7 @@ export default function Modal() {
 	}, []);
 
 	useEffect(() => {
-		console.log('num 변경 시 호출');
+		// console.log('num 변경 시 호출');
 	}, [num]);
 	return (
 		<aside className='modal'>
