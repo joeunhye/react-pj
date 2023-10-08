@@ -4,22 +4,21 @@ import './Department.scss';
 
 export default function Department() {
 	const rotate = useRef(0);
-	let [num, setNum] = useState(0);
+	const box = useRef(null);
+
 	const plus = () => {
-		setNum(++num);
+		++rotate.current;
+		box.current.style.transform = `rotate(${45 * rotate.current}deg)`;
 	};
 	const minus = () => {
-		setNum(--num);
+		--rotate.current;
+		box.current.style.transform = `rotate(${45 * rotate.current}deg)`;
 	};
 	return (
 		<Layout title={'Department'}>
 			<button onClick={plus}>plus</button>
 			<button onClick={minus}>minus</button>
-			<article
-				style={{
-					transform: `rotate(${45 * num}deg)`,
-				}}
-			></article>
+			<article ref={box}></article>
 		</Layout>
 	);
 }
