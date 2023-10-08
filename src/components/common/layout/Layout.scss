@@ -19,6 +19,13 @@
 			transition-delay: 0.5s;
 		}
 	}
+	.bar {
+		width: 0;
+		height: 1px;
+		background-color: #000;
+		transition: 1s 1s;
+		margin-bottom: 30px;
+	}
 	&.on {
 		opacity: 1;
 		transform: translateY(0);
@@ -27,6 +34,10 @@
 				opacity: 1;
 				transform: scale(1);
 			}
+		}
+
+		.bar {
+			width: 200px;
 		}
 	}
 }
