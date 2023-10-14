@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Layout from '../../common/layout/Layout';
+import { Link } from 'react-router-dom';
 
 export default function Youtube() {
 	const [vids, setVids] = useState([]);
@@ -24,7 +25,9 @@ export default function Youtube() {
 						<h2>{data.snippet.title}</h2>
 						<p>{data.snippet.description}</p>
 						<div className='pic'>
-							<img src={data.snippet.thumbnails.standard.url} alt='' />
+							<Link to={`/detail/${data.id}`}>
+								<img src={data.snippet.thumbnails.standard.url} alt='' />
+							</Link>
 						</div>
 					</article>
 				);
