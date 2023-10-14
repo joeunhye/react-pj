@@ -36,17 +36,19 @@ export default function Department() {
 			</section>
 			<section id='memberBox'>
 				<h2>{title.charAt(0).toUpperCase() + title.slice(1)}</h2>
-				{department.map((member, idx) => {
-					return (
-						<article key={idx}>
-							<div className='pic'>
-								<img src={`${path}/img/${member.pic}`} alt='' />
-							</div>
-							<h2>{member.name}</h2>
-							<p>{member.position}</p>
-						</article>
-					);
-				})}
+				<div className='con'>
+					{department.map((member, idx) => {
+						return (
+							<article key={idx}>
+								<div className='pic'>
+									<img src={`${path}/img/${member.pic}`} alt='' />
+								</div>
+								<h3>{member.name}</h3>
+								<p>{member.position}</p>
+							</article>
+						);
+					})}
+				</div>
 			</section>
 		</Layout>
 	);

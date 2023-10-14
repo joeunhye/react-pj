@@ -24,4 +24,49 @@
 			}
 		}
 	}
+
+	#memberBox {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+
+		h2 {
+			width: 30%;
+			font-size: 3rem;
+			font: normal 3rem/1.3 'nanum myeongjo';
+			opacity: 0.6;
+		}
+
+		.con {
+			display: flex;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			width: 75%;
+			padding-left: 30px;
+			border-left: 1px solid #ddd;
+
+			article {
+				width: 30%;
+				margin-bottom: 50px;
+
+				.pic {
+					width: 100%;
+					height: 200px;
+
+					img {
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+					}
+				}
+
+				h3 {
+					font-size: 1.7rem;
+					opacity: 0.8;
+					margin-top: 10px;
+					margin-bottom: 10px;
+				}
+			}
+		}
+	}
 }
