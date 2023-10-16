@@ -8,16 +8,22 @@ export default function Detail() {
 
 	useEffect(() => {
 		const api_key = 'AIzaSyBdfJCY-Cpvxi_gWvGVpnxqWLU4cdowO_o';
-		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&Id=${id}`;
+		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&id=${id}`;
 
 		fetch(baseURL)
 			.then((data) => data.json())
-			.then((json) => console.log(json.items[0]));
+			.then((json) => {
+				console.log(json.items[0]);
+				setData(json.items[0]);
+			});
 	}, []);
 
 	return (
 		<Layout title={'Detail'}>
-			<iframe frameborder='0'></iframe>
+			<iframe width='100%'
+				height='500'
+				title='youtube'
+				src={`https://www.youtube.com/embed/${data?.snippet.resourceId.videoId}`}></iframe>
 		</Layout>
 	);
 }

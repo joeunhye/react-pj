@@ -18,7 +18,7 @@ export default function Youtube() {
 			.then((json) => setVids(json.items));
 	}, []);
 	return (
-		<Layout title='Youtube'>
+		<Layout title={'Youtube'}>
 			{vids.map((data, idx) => {
 				return (
 					<article key={idx}>
@@ -26,7 +26,7 @@ export default function Youtube() {
 						<p>{data.snippet.description}</p>
 						<div className='pic'>
 							<Link to={`/detail/${data.id}`}>
-								<img src={data.snippet.thumbnails.standard.url} alt='' />
+								<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
 							</Link>
 						</div>
 					</article>

@@ -14,22 +14,22 @@ export default function Header() {
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='gallery' activeClassName={'on'}>
+					<NavLink to='/gallery' activeClassName={'on'}>
 						Gallery
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='youtube' activeClassName={'on'}>
+					<NavLink to='/youtube' activeClassName={'on'}>
 						Youtube
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='members' activeClassName={'on'}>
+					<NavLink to='/members' activeClassName={'on'}>
 						Members
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='contact' activeClassName={'on'}>
+					<NavLink to='/contact' activeClassName={'on'}>
 						Contact
 					</NavLink>
 				</li>
