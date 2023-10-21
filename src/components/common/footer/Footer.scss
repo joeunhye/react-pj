@@ -2,10 +2,11 @@
 
 footer {
 	width: 70vw;
-	margin: 0 auto;
+	margin: 0px auto;
 	padding: 60px 0;
 	border-top: 1px solid #ddd;
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 
 	h1 {
@@ -14,14 +15,35 @@ footer {
 		font: normal 1.5rem/1 'nanum myeongjo';
 		color: #222;
 	}
-
 	p {
 		font: normal 1rem/1 'nanum myeongjo';
-		color: #555;
+		color: #444;
 	}
 
 	ul {
 		display: flex;
 		gap: 30px;
+	}
+}
+
+.tablet,
+.mobile {
+	footer {
+		h1 {
+			order: 1;
+			width: 65%;
+		}
+
+		ul {
+			order: 2;
+			width: 30%;
+		}
+
+		p {
+			width: 100%;
+			margin-top: 20px;
+			margin-bottom: 60px;
+			order: 3;
+		}
 	}
 }
