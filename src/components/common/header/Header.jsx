@@ -5,7 +5,7 @@ export default function Header() {
 	return (
 		<header>
 			<h1>
-				<Link to='/'>DECODELAB</Link>
+				<Link to='/'>DECODELAB ♥</Link>
 			</h1>
 			<ul>
 				<li>
