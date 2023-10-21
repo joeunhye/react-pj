@@ -1,20 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
-import { useFetch } from '../../../hooks/useFetch';
-
 const path = process.env.PUBLIC_URL;
 
 export default function Department() {
 	const [title, setTitle] = useState('');
 	const [department, setDepartment] = useState([]);
 	const [history, setHistory] = useState([]);
-	const fetchData = useFetch();
+
+	const fetchDepartment = async () => {
+		const data = await fetch(`${path}/DB/history.json`);
+		const json = await data.json();
+		setHistory(json.history);
+	};
+
+	const fetchHistory = async () => {
+		const data = await fetch(`${path}/DB/department.json`);
+		const json = await data.json();
+		setDepartment(json.members);
+	};
 
 	useEffect(() => {
-		fetchData(`${path}/DB/history.json`, setHistory);
-		fetchData(`${path}/DB/department.json`, setDepartment, setTitle);
+		fetchDepartment();
+		fetchHistory();
 	}, []);
+
 	return (
 		<Layout title={'Department'}>
 			<section id='historyBox'>

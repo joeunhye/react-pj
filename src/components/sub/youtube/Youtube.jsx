@@ -3,19 +3,20 @@ import Layout from '../../common/layout/Layout';
 import { Link } from 'react-router-dom';
 
 export default function Youtube() {
+	const api_key = 'AIzaSyBdfJCY-Cpvxi_gWvGVpnxqWLU4cdowO_o';
+	const pid = 'PLQYyKtRo0VeHDcXQenJwEqbY8hMmNIhjV';
+	const num = 10;
+	const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
 	const [vids, setVids] = useState([]);
 
-	console.log(vids);
+	const fetchYoutube = async () => {
+		const data = await fetch(baseURL);
+		const json = await data.json();
+		setVids(json.items);
+	};
 
 	useEffect(() => {
-		const api_key = 'AIzaSyBdfJCY-Cpvxi_gWvGVpnxqWLU4cdowO_o';
-		const pid = 'PLQYyKtRo0VeHDcXQenJwEqbY8hMmNIhjV';
-		const num = 10;
-		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
-
-		fetch(baseURL)
-			.then((data) => data.json())
-			.then((json) => setVids(json.items));
+		fetchYoutube();
 	}, []);
 	return (
 		<Layout title={'Youtube'}>
