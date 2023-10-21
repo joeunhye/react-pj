@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import { Link } from 'react-router-dom';
+import './Youtube.scss';
 
 export default function Youtube() {
 	const [vids, setVids] = useState([]);
@@ -21,10 +22,22 @@ export default function Youtube() {
 	return (
 		<Layout title={'Youtube'}>
 			{vids.map((data, idx) => {
+				const title = data.snippet.title;
+				const desc = data.snippet.description;
+				const [date, time] = data.snippet.publishedAt.split('T');
+
 				return (
 					<article key={idx}>
-						<h2>{data.snippet.title}</h2>
-						<p>{data.snippet.description}</p>
+						<h2>{title}</h2>
+
+						<div className='txt'>
+							<p>{desc.length > 200 ? desc.substr(0, 200) + '...' : desc}</p>
+							<div className='info'>
+								<span>{date.split('-').join('.')}</span>
+								<em>{time.split('Z')[0]}</em>
+							</div>
+						</div>
+
 						<div className='pic'>
 							<Link to={`/detail/${data.id}`}>
 								<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
