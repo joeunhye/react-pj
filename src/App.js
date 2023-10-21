@@ -13,7 +13,7 @@ import { Route } from 'react-router-dom';
 
 function App() {
 	return (
-		<main className={useMedia()}>
+		<main className={useMedia({ tablet: 800 })}>
 			<Header />
 			<Route exact path='/' component={Visual} />
 			<Route path='/department' component={Department} />

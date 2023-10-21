@@ -1,17 +1,23 @@
 import { useEffect, useState } from 'react';
 
 export const useMedia = (opt) => {
+	const defOpt = {
+		mobile: 640,
+		tablet: 1000,
+		laptop: 1400,
+	};
+	const result = { ...defOpt, ...opt };
 	const [Type, setType] = useState('');
 
 	const getClientWidth = () => {
 		let width = window.innerWidth;
-		if (width >= 1400) {
+		if (width >= result.laptop) {
 			setType('');
-		} else if (width >= 1000 && width < 1400) {
+		} else if (width >= result.tablet && width < result.laptop) {
 			setType('laptop');
-		} else if (width >= 640 && width < 1000) {
+		} else if (width >= result.mobile && width < result.tablet) {
 			setType('tablet');
-		} else if (width >= 0 && width < 640) {
+		} else if (width >= 0 && width < result.mobile) {
 			setType('mobile');
 		}
 	};
