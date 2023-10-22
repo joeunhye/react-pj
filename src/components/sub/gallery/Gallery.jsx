@@ -4,10 +4,10 @@ import './Gallery.scss';
 import { useState, useEffect, useRef } from 'react';
 
 export default function Gallery() {
-	const [Pics, setPics] = useState([]);
-	const [isUser, setIsUser] = useState(true);
-	const refElBtnSet = useRef(null);
 	const myID = '199369997@N05';
+	const [Pics, setPics] = useState([]);
+	const [isUser, setIsUser] = useState(myID);
+	const refElBtnSet = useRef(null);
 
 	const fetchGallery = async (opt) => {
 		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
@@ -39,21 +39,21 @@ export default function Gallery() {
 
 	const handleClickInterest = (e) => {
 		if (e.target.classList.contains('on')) return;
-		setIsUser(false);
+		setIsUser('');
 		activateBtn(e);
 		fetchGallery({ type: 'interest' });
 	};
 
 	const handleClickMine = (e) => {
-		if (e.target.classList.contains('on') || isUser) return;
-		setIsUser(true);
+		if (e.target.classList.contains('on') || isUser === myID) return;
+		setIsUser(myID);
 		activateBtn(e);
 		fetchGallery({ type: 'user', id: myID });
 	};
 
 	const handleClickUser = (e) => {
 		if (isUser) return;
-		setIsUser(true);
+		setIsUser(e.target.innerText);
 		activateBtn(e);
 		fetchGallery({ type: 'user', id: e.target.innerText });
 	};
