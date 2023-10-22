@@ -9,11 +9,13 @@ export default function Gallery() {
 	const fetchGallery = async () => {
 		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
 		const key = process.env.REACT_APP_FLICKR_KEY;
+		const myID = '199369997@N05';
 		const method_interest = 'flickr.interestingness.getList';
+		const method_user = 'flickr.people.getPhotos';
 		const num = 50;
-		const url = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
-
-		const data = await fetch(url);
+		const url_interest = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
+		const url_user = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${myID}`;
+		const data = await fetch(url_user);
 		const json = await data.json();
 		setPics(json.photos.photo);
 	};
@@ -28,13 +30,20 @@ export default function Gallery() {
 					{Pics.map((pic, idx) => {
 						return (
 							<article key={idx}>
-								<h2>{pic.title}</h2>
 								<div className='inner'>
 									<div className='pic'>
-										<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`} alt={pic.title} />
+										<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`} alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`} />
 									</div>
+									<h2>{pic.title}</h2>
+
 									<div className='profile'>
-										<img src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`} alt={pic.owner} />
+										<img
+											src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
+											alt={pic.owner}
+											onError={(e) => {
+												e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif');
+											}}
+										/>
 										<span>{pic.owner}</span>
 									</div>
 								</div>

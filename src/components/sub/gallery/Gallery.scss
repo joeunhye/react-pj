@@ -1,7 +1,6 @@
 .gallery {
 	.frame {
 		width: 100%;
-
 		&::after {
 			content: '';
 			display: block;
@@ -10,12 +9,13 @@
 
 		article {
 			width: 25%;
-			border-bottom: 1px solid #555;
 			float: left;
-			padding: 10px;
+			padding: 15px;
 
 			.inner {
 				width: 100%;
+				border-bottom: 1px solid #555;
+
 				.pic {
 					width: 100%;
 					margin-bottom: 10px;
@@ -24,30 +24,30 @@
 						width: 100%;
 					}
 				}
-			}
 
-			h2 {
-				font-weight: normal;
-				font-size: 1rem;
-				line-height: 1.2;
-				margin-bottom: 10px;
-			}
-
-			.profile {
-				width: 100%;
-				display: flex;
-				align-items: flex-end;
-				gap: 10px;
-				margin-top: 13px;
-
-				img {
-					width: 40px;
+				h2 {
+					font-weight: normal;
+					font-size: 1rem;
+					line-height: 1.2;
+					margin-bottom: 10px;
 				}
 
-				span {
-					font-size: 0.7rem;
-					color: purple;
-					cursor: pointer;
+				.profile {
+					width: 100%;
+					display: flex;
+					align-items: flex-end;
+					gap: 10px;
+					margin-top: 20px;
+					margin-bottom: 20px;
+
+					img {
+						width: 40px;
+					}
+					span {
+						font-size: 0.7rem;
+						color: orange;
+						cursor: pointer;
+					}
 				}
 			}
 		}

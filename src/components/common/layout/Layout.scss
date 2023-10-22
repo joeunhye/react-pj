@@ -2,8 +2,12 @@
 
 .layout {
 	width: 70vw;
-	margin: 150px auto;
+	margin: 100px auto;
 	min-height: 60vh;
+	/*
+	transition-property: transform, opacity;
+	transition-duration: 0.5s;
+	*/
 	transition: opacity 0.5s, transform 0.5s;
 	transform: translateY(200px);
 	opacity: 0;
@@ -11,34 +15,33 @@
 	h1 {
 		font: normal 80px/1 'nanum myeongjo';
 		color: #444;
-		margin-bottom: 30px;
+		margin-bottom: 10px;
 
 		span {
 			opacity: 0;
 			transform: scale(3);
-			transition-delay: 0.5s;
-			transition: 0.5s;
+			transition-duration: 0.5s;
 		}
 	}
 	.bar {
-		width: 0;
+		width: 0px;
 		height: 1px;
-		background-color: #000;
+		background: #000;
+		margin-bottom: 100px;
 		transition: 1s 1s;
-		margin-bottom: 30px;
 	}
+
 	&.on {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0px);
 		h1 {
 			span {
 				opacity: 1;
 				transform: scale(1);
 			}
 		}
-
 		.bar {
-			width: 200px;
+			width: 50px;
 		}
 	}
 }
