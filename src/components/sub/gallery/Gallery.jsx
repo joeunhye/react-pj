@@ -14,13 +14,16 @@ export default function Gallery() {
 		const key = process.env.REACT_APP_FLICKR_KEY;
 		const method_interest = 'flickr.interestingness.getList';
 		const method_user = 'flickr.people.getPhotos';
+		const method_search = 'flickr.photos.search';
 		const num = 50;
 		let url = '';
 		const url_interest = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
 		const url_user = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.id}`;
+		const url_search = `${baseURL}&api_key=${key}&method=${method_search}&per_page=${num}&tags=${opt.keyword}`;
 
 		opt.type === 'user' && (url = url_user);
 		opt.type === 'interest' && (url = url_interest);
+		opt.type === 'search' && (url = url_search);
 
 		const data = await fetch(url);
 		const json = await data.json();
@@ -59,7 +62,8 @@ export default function Gallery() {
 	};
 
 	useEffect(() => {
-		fetchGallery({ type: 'user', id: myID });
+		//fetchGallery({ type: 'user', id: myID });
+		fetchGallery({ type: 'search', keyword: 'landscape' });
 	}, []);
 
 	return (
