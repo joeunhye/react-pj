@@ -1,10 +1,11 @@
 import Layout from '../../common/layout/Layout';
 import Masonry from 'react-masonry-component';
 import './Gallery.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Gallery() {
 	const [Pics, setPics] = useState([]);
+	const refElBtnSet = useRef(null);
 	const myID = '199369997@N05';
 
 	const fetchGallery = async (opt) => {
@@ -24,6 +25,32 @@ export default function Gallery() {
 		const json = await data.json();
 		setPics(json.photos.photo);
 	};
+
+	const activateBtn = (e) => {
+		const btns = refElBtnSet.current.querySelectorAll('button');
+		btns.forEach((btn) => btn.classList.remove('on'));
+		if (e.target.nodeName === 'BUTTON') {
+			e.target.classList.add('on');
+		}
+	};
+
+	const handleClickInterest = (e) => {
+		if (e.target.classList.contains('on')) return;
+		activateBtn(e);
+		fetchGallery({ type: 'interest' });
+	};
+
+	const handleClickMine = (e) => {
+		if (e.target.classList.contains('on')) return;
+		activateBtn(e);
+		fetchGallery({ type: 'user', id: myID });
+	};
+
+	const handleClickUser = (e) => {
+		activateBtn(e);
+		fetchGallery({ type: 'user', id: e.target.innerText });
+	};
+
 	useEffect(() => {
 		fetchGallery({ type: 'user', id: myID });
 	}, []);
@@ -31,9 +58,11 @@ export default function Gallery() {
 	return (
 		<Layout title={'Gallery'}>
 			<article className='controls'>
-				<nav className='btnSet'>
-					<button onClick={() => fetchGallery({ type: 'interest' })}>Interest Gallrey</button>
-					<button onClick={() => fetchGallery({ type: 'user', id: myID })}>My Gallrey</button>
+				<nav className='btnSet' ref={refElBtnSet}>
+					<button onClick={handleClickInterest}>Interest Gallrey</button>
+					<button className='on' onClick={handleClickMine}>
+						My Gallrey
+					</button>
 				</nav>
 			</article>
 			<div className='frame'>
@@ -55,7 +84,7 @@ export default function Gallery() {
 												e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif');
 											}}
 										/>
-										<span onClick={(e) => fetchGallery({ type: 'user', id: e.target.innerText })}>{pic.owner}</span>
+										<span onClick={handleClickUser}>{pic.owner}</span>
 									</div>
 								</div>
 							</article>

@@ -32,6 +32,10 @@
 					transition: 0.5s;
 				}
 
+				&.on {
+					color: #000;
+				}
+
 				&:hover {
 					color: #000;
 
