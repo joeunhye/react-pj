@@ -1,21 +1,28 @@
 .gallery {
 	.frame {
 		width: 100%;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
+
+		&::after {
+			content: '';
+			display: block;
+			clear: both;
+		}
 
 		article {
-			width: 23%;
-			margin-bottom: 60px;
+			width: 25%;
 			border-bottom: 1px solid #555;
+			float: left;
+			padding: 10px;
 
-			.pic {
+			.inner {
 				width: 100%;
-				margin-bottom: 10px;
-
-				img {
+				.pic {
 					width: 100%;
+					margin-bottom: 10px;
+
+					img {
+						width: 100%;
+					}
 				}
 			}
 
@@ -31,10 +38,16 @@
 				display: flex;
 				align-items: flex-end;
 				gap: 10px;
-				margin-bottom: 20px;
+				margin-top: 13px;
 
 				img {
 					width: 40px;
+				}
+
+				span {
+					font-size: 0.7rem;
+					color: purple;
+					cursor: pointer;
 				}
 			}
 		}
@@ -43,24 +56,30 @@
 
 .laptop {
 	.gallery {
-		article {
-			width: 32%;
+		.frame {
+			article {
+				width: 32%;
+			}
 		}
 	}
 }
 
 .tablet {
 	.gallery {
-		article {
-			width: 48%;
+		.frame {
+			article {
+				width: 48%;
+			}
 		}
 	}
 }
 
 .mobile {
 	.gallery {
-		article {
-			width: 100%;
+		.frame {
+			article {
+				width: 100%;
+			}
 		}
 	}
 }
