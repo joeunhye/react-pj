@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 
 export default function Gallery() {
 	const [Pics, setPics] = useState([]);
+	const [isUser, setIsUser] = useState(true);
 	const refElBtnSet = useRef(null);
 	const myID = '199369997@N05';
 
@@ -24,6 +25,8 @@ export default function Gallery() {
 		const data = await fetch(url);
 		const json = await data.json();
 		setPics(json.photos.photo);
+
+		console.log('...fetching💨');
 	};
 
 	const activateBtn = (e) => {
@@ -36,17 +39,21 @@ export default function Gallery() {
 
 	const handleClickInterest = (e) => {
 		if (e.target.classList.contains('on')) return;
+		setIsUser(false);
 		activateBtn(e);
 		fetchGallery({ type: 'interest' });
 	};
 
 	const handleClickMine = (e) => {
-		if (e.target.classList.contains('on')) return;
+		if (e.target.classList.contains('on') || isUser) return;
+		setIsUser(true);
 		activateBtn(e);
 		fetchGallery({ type: 'user', id: myID });
 	};
 
 	const handleClickUser = (e) => {
+		if (isUser) return;
+		setIsUser(true);
 		activateBtn(e);
 		fetchGallery({ type: 'user', id: e.target.innerText });
 	};
