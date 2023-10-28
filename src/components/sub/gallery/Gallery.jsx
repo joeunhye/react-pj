@@ -66,6 +66,7 @@ export default function Gallery() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const tags = refElInput.current.value;
+		if (!tags.trim()) return;
 		setIsUser('');
 		activateBtn(e);
 		fetchGallery({ type: 'search', keyword: tags });
@@ -88,7 +89,9 @@ export default function Gallery() {
 
 				<form onSubmit={handleSubmit}>
 					<input type='text' placeholder='Search...' ref={refElInput} />
-					<LuSearch fontSize={20} color={'#bbb'} className='btnSearch' />
+					<button className='btnSearch'>
+						<LuSearch fontSize={20} color={'#bbb'} />
+					</button>
 				</form>
 			</article>
 			<div className='frame'>
