@@ -4,6 +4,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		padding: 20px 15px;
+		justify-content: space-between;
 
 		.btnSet {
 			width: 40%;
@@ -43,6 +44,24 @@
 						width: 100%;
 					}
 				}
+			}
+		}
+
+		form {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			input {
+				width: 150px;
+				border: none;
+				border-bottom: 1px solid #777;
+				padding: 3px 20px;
+				outline: 0;
+			}
+
+			.btnSearch {
+				cursor: pointer;
 			}
 		}
 	}

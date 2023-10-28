@@ -1,5 +1,6 @@
 import Layout from '../../common/layout/Layout';
 import Masonry from 'react-masonry-component';
+import { LuSearch } from 'react-icons/lu';
 import './Gallery.scss';
 import { useState, useEffect, useRef } from 'react';
 
@@ -8,6 +9,7 @@ export default function Gallery() {
 	const [Pics, setPics] = useState([]);
 	const [isUser, setIsUser] = useState(myID);
 	const refElBtnSet = useRef(null);
+	const refElInput = useRef(null);
 
 	const fetchGallery = async (opt) => {
 		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
@@ -61,6 +63,14 @@ export default function Gallery() {
 		fetchGallery({ type: 'user', id: e.target.innerText });
 	};
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const tags = refElInput.current.value;
+		setIsUser('');
+		activateBtn(e);
+		fetchGallery({ type: 'search', keyword: tags });
+	};
+
 	useEffect(() => {
 		//fetchGallery({ type: 'user', id: myID });
 		fetchGallery({ type: 'search', keyword: 'landscape' });
@@ -75,6 +85,11 @@ export default function Gallery() {
 						My Gallrey
 					</button>
 				</nav>
+
+				<form onSubmit={handleSubmit}>
+					<input type='text' placeholder='Search...' ref={refElInput} />
+					<LuSearch fontSize={20} color={'#bbb'} className='btnSearch' />
+				</form>
 			</article>
 			<div className='frame'>
 				<Masonry elementType={'div'} options={{ transitionDuration: 0.5 }} disableImagesLoaded={false} updateOnEachImageLoad={false}>
