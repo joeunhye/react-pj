@@ -93,8 +93,8 @@ export default function Gallery() {
 	};
 
 	useEffect(() => {
-		//fetchGallery({ type: 'user', id: myID });
-		fetchGallery({ type: 'search', keyword: 'landscape' });
+		fetchGallery({ type: 'user', id: myID });
+		// fetchGallery({ type: 'search', keyword: 'landscape' });
 	}, []);
 
 	return (
