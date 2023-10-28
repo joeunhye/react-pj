@@ -12,6 +12,8 @@ export default function Gallery() {
 	let [currentType, setCurrentType] = useState('mine');
 	const refElBtnSet = useRef(null);
 	const refElInput = useRef(null);
+	let [IsOpen, setIsOpen] = useState(false);
+	const [Index, setIndex] = useState(0);
 
 	const fetchGallery = async (opt) => {
 		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
@@ -85,6 +87,11 @@ export default function Gallery() {
 		setCurrentType('search');
 	};
 
+	const handleModal = (idx) => {
+		setIsOpen((IsOpen) => !IsOpen);
+		setIndex(idx);
+	};
+
 	useEffect(() => {
 		//fetchGallery({ type: 'user', id: myID });
 		fetchGallery({ type: 'search', keyword: 'landscape' });
@@ -114,7 +121,7 @@ export default function Gallery() {
 							return (
 								<article key={idx}>
 									<div className='inner'>
-										<div className='pic'>
+										<div className='pic' onClick={() => handleModal(idx)}>
 											<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_w.jpg`} alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`} />
 										</div>
 										<h2>{pic.title}</h2>
@@ -137,7 +144,10 @@ export default function Gallery() {
 				</div>
 			</Layout>
 
-			<Modal></Modal>
+			{/* 모달 호출 시 출력 유무를 결정하는 state 값과 state변경 함수를 모달의 props로 전달 - 이유 : 모달의 열고 닫기를 부모가 아닌 자식 컴포넌트에서 결정하게 하기 위함 */}
+			<Modal IsOpen={IsOpen} setIsOpen={setIsOpen}>
+				<img src={`https://live.staticflickr.com/${Pics[Index]?.server}/${Pics[Index]?.id}_${Pics[Index]?.secret}_b.jpg`} alt='pic' />
+			</Modal>
 		</>
 	);
 }

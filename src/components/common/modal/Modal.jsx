@@ -1,19 +1,20 @@
 import './Modal.scss';
 import { useEffect, useState } from 'react';
 
-export default function Modal() {
+export default function Modal({ IsOpen, setIsOpen, children }) {
+	const handleClose = () => setIsOpen((IsOpen) => !IsOpen);
+
 	useEffect(() => {
-		document.body.style.overflow = 'hidden';
-
-		return () => {
-			document.body.style.overflow = 'auto';
-		};
-	}, []);
-
+		document.body.style.overflow = IsOpen ? 'hidden' : 'auto';
+	}, [IsOpen]);
 	return (
-		<aside className='modal'>
-			<div className='con'></div>
-			<span>close</span>
-		</aside>
+		<>
+			{IsOpen && (
+				<aside className='modal'>
+					<div className='con'>{children}</div>
+					<span onClick={handleClose}>Close</span>
+				</aside>
+			)}
+		</>
 	);
 }
