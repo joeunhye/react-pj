@@ -3,6 +3,7 @@ import Masonry from 'react-masonry-component';
 import { LuSearch } from 'react-icons/lu';
 import './Gallery.scss';
 import { useState, useEffect, useRef } from 'react';
+import Modal from '../../common/modal/Modal';
 
 export default function Gallery() {
 	const myID = '199369997@N05';
@@ -90,49 +91,53 @@ export default function Gallery() {
 	}, []);
 
 	return (
-		<Layout title={'Gallery'}>
-			<article className='controls'>
-				<nav className='btnSet' ref={refElBtnSet}>
-					<button onClick={handleClickInterest}>Interest Gallrey</button>
-					<button className='on' onClick={handleClickMine}>
-						My Gallrey
-					</button>
-				</nav>
+		<>
+			<Layout title={'Gallery'}>
+				<article className='controls'>
+					<nav className='btnSet' ref={refElBtnSet}>
+						<button onClick={handleClickInterest}>Interest Gallrey</button>
+						<button className='on' onClick={handleClickMine}>
+							My Gallrey
+						</button>
+					</nav>
 
-				<form onSubmit={handleSubmit}>
-					<input type='text' placeholder='Search...' ref={refElInput} />
-					<button className='btnSearch'>
-						<LuSearch fontSize={20} color={'#bbb'} />
-					</button>
-				</form>
-			</article>
-			<div className='frame'>
-				<Masonry elementType={'div'} options={{ transitionDuration: 0.5 }} disableImagesLoaded={false} updateOnEachImageLoad={false}>
-					{Pics.map((pic, idx) => {
-						return (
-							<article key={idx}>
-								<div className='inner'>
-									<div className='pic'>
-										<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_w.jpg`} alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`} />
-									</div>
-									<h2>{pic.title}</h2>
+					<form onSubmit={handleSubmit}>
+						<input type='text' placeholder='Search...' ref={refElInput} />
+						<button className='btnSearch'>
+							<LuSearch fontSize={20} color={'#bbb'} />
+						</button>
+					</form>
+				</article>
+				<div className='frame'>
+					<Masonry elementType={'div'} options={{ transitionDuration: 0.5 }} disableImagesLoaded={false} updateOnEachImageLoad={false}>
+						{Pics.map((pic, idx) => {
+							return (
+								<article key={idx}>
+									<div className='inner'>
+										<div className='pic'>
+											<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_w.jpg`} alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`} />
+										</div>
+										<h2>{pic.title}</h2>
 
-									<div className='profile'>
-										<img
-											src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
-											alt={pic.owner}
-											onError={(e) => {
-												e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif');
-											}}
-										/>
-										<span onClick={handleClickUser}>{pic.owner}</span>
+										<div className='profile'>
+											<img
+												src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
+												alt={pic.owner}
+												onError={(e) => {
+													e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif');
+												}}
+											/>
+											<span onClick={handleClickUser}>{pic.owner}</span>
+										</div>
 									</div>
-								</div>
-							</article>
-						);
-					})}
-				</Masonry>
-			</div>
-		</Layout>
+								</article>
+							);
+						})}
+					</Masonry>
+				</div>
+			</Layout>
+
+			<Modal></Modal>
+		</>
 	);
 }
