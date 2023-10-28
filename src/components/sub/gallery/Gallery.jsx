@@ -7,7 +7,8 @@ import { useState, useEffect, useRef } from 'react';
 export default function Gallery() {
 	const myID = '199369997@N05';
 	const [Pics, setPics] = useState([]);
-	const [isUser, setIsUser] = useState(myID);
+	let [isUser, setIsUser] = useState(myID);
+	let [currentType, setCurrentType] = useState('mine');
 	const refElBtnSet = useRef(null);
 	const refElInput = useRef(null);
 
@@ -29,7 +30,12 @@ export default function Gallery() {
 
 		const data = await fetch(url);
 		const json = await data.json();
-		if (json.photos.photo.length === 0) return alert('해당 검색어에 결과값이 없습니다.');
+		if (json.photos.photo.length === 0) {
+			const [btnInterest, btnMine] = refElBtnSet.current.querySelectorAll('button');
+			currentType === 'interest' && btnInterest.classList.add('on');
+			currentType === 'mine' && btnMine.classList.add('on');
+			return alert('해당 검색어에 결과값이 없습니다.');
+		}
 		setPics(json.photos.photo);
 
 		console.log('...fetching💨');
@@ -48,6 +54,7 @@ export default function Gallery() {
 		setIsUser('');
 		activateBtn(e);
 		fetchGallery({ type: 'interest' });
+		setCurrentType('interest');
 	};
 
 	const handleClickMine = (e) => {
@@ -55,6 +62,7 @@ export default function Gallery() {
 		setIsUser(myID);
 		activateBtn(e);
 		fetchGallery({ type: 'user', id: myID });
+		setCurrentType('mine');
 	};
 
 	const handleClickUser = (e) => {
@@ -62,6 +70,7 @@ export default function Gallery() {
 		setIsUser(e.target.innerText);
 		activateBtn(e);
 		fetchGallery({ type: 'user', id: e.target.innerText });
+		setCurrentType('user');
 	};
 
 	const handleSubmit = (e) => {
@@ -72,6 +81,7 @@ export default function Gallery() {
 		setIsUser('');
 		activateBtn(e);
 		fetchGallery({ type: 'search', keyword: tags });
+		setCurrentType('search');
 	};
 
 	useEffect(() => {
