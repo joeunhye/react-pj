@@ -25,7 +25,10 @@ function Comunity() {
 			resetPost();
 			return alert('제목과 본문을 모두 입력해주세요.');
 		}
-		setPosts([{ title: refInput.current.value, content: refTextarea.current.value }, ...Posts]);
+
+		const korTime = new Date().getTime() + 1000 * 60 * 60 * 9;
+
+		setPosts([{ title: refInput.current.value, content: refTextarea.current.value, date: new Date(korTime) }, ...Posts]);
 		resetPost();
 	};
 
@@ -60,6 +63,7 @@ function Comunity() {
 							<div className='txt'>
 								<h2>{post.title}</h2>
 								<p>{post.content}</p>
+								<span>{post.date.toString()}</span>
 							</div>
 
 							<nav>
