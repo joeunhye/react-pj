@@ -3,8 +3,8 @@
 		width: 100%;
 		display: flex;
 		flex-wrap: wrap;
-		padding: 20px 15px;
 		justify-content: space-between;
+		padding: 20px 15px;
 
 		.btnSet {
 			width: 40%;
@@ -33,11 +33,8 @@
 					transition: 0.5s;
 				}
 
+				&:hover,
 				&.on {
-					color: #000;
-				}
-
-				&:hover {
 					color: #000;
 
 					&::after {
@@ -53,13 +50,12 @@
 			gap: 10px;
 
 			input {
-				width: 150px;
+				width: 120px;
 				border: none;
 				border-bottom: 1px solid #777;
-				padding: 3px 20px;
+				padding: 6px 10px;
 				outline: 0;
 			}
-
 			.btnSearch {
 				cursor: pointer;
 				background: transparent;
@@ -68,23 +64,16 @@
 			}
 		}
 	}
-
 	.frame {
 		width: 100%;
-		&::after {
-			content: '';
-			display: block;
-			clear: both;
-		}
 
 		article {
 			width: 25%;
-			float: left;
 			padding: 15px;
 
 			.inner {
 				width: 100%;
-				border-bottom: 1px solid #555;
+				border-bottom: 1px solid #bbb;
 
 				.pic {
 					width: 100%;
@@ -146,6 +135,24 @@
 
 .mobile {
 	.gallery {
+		.controls {
+			.btnSet {
+				width: 100%;
+				margin-bottom: 2rem;
+				justify-content: space-between;
+				button {
+					width: 45%;
+				}
+			}
+			form {
+				width: 100%;
+				justify-content: space-between;
+
+				input {
+					width: calc(100% - 30px);
+				}
+			}
+		}
 		.frame {
 			article {
 				width: 100%;

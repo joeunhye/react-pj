@@ -116,7 +116,7 @@ export default function Gallery() {
 					</form>
 				</article>
 				<div className='frame'>
-					<Masonry elementType={'div'} options={{ transitionDuration: 0.5 }} disableImagesLoaded={false} updateOnEachImageLoad={false}>
+					<Masonry elementType={'div'} options={{ transitionDuration: '0.5s' }} disableImagesLoaded={false} updateOnEachImageLoad={false}>
 						{Pics.map((pic, idx) => {
 							return (
 								<article key={idx}>
