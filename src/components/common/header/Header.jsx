@@ -14,6 +14,11 @@ export default function Header() {
 					</NavLink>
 				</li>
 				<li>
+					<NavLink to='/community' activeClassName={'on'}>
+						Community
+					</NavLink>
+				</li>
+				<li>
 					<NavLink to='/gallery' activeClassName={'on'}>
 						Gallery
 					</NavLink>
