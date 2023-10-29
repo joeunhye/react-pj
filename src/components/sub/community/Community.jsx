@@ -7,7 +7,13 @@ import { useEffect, useRef, useState } from 'react';
 function Comunity() {
 	const refInput = useRef(null);
 	const refTextarea = useRef(null);
-	const [Posts, setPosts] = useState([]);
+
+	const getLocalData = () => {
+		const data = localStorage.getItem('posts');
+		return data ? JSON.parse(data) : [];
+	};
+
+	const [Posts, setPosts] = useState(getLocalData());
 
 	const resetPost = () => {
 		refInput.current.value = '';
@@ -21,6 +27,10 @@ function Comunity() {
 		}
 		setPosts([{ title: refInput.current.value, content: refTextarea.current.value }, ...Posts]);
 		resetPost();
+	};
+
+	const deletePost = (delIndex) => {
+		setPosts(Posts.filter((_, idx) => delIndex !== idx));
 	};
 
 	useEffect(() => {
@@ -54,7 +64,7 @@ function Comunity() {
 
 							<nav>
 								<button>Edit</button>
-								<button>Delete</button>
+								<button onClick={() => deletePost(idx)}>Delete</button>
 							</nav>
 						</article>
 					))}
