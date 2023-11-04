@@ -6,8 +6,10 @@
 	font-family: 'nanum myeongjo';
 }
 :root {
-	--boxGap: 40px;
-	--countColumn: 2
+	--boxGap: 20px;
+	--countColumn: 3;
+	--countColumn-2: 2;
+	--countColumn-1: 1;
 }
 ul,
 ol,
