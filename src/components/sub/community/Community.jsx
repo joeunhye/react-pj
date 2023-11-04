@@ -45,6 +45,15 @@ function Comunity() {
 		)
 	}
 
+	const disableUpdate = (cancleIndex) => {
+		setPosts(
+			Posts.map((post, idx) => {
+				if(cancleIndex === idx) post.enableUpdata = false
+				return post;
+			})
+		)
+	}
+
 	useEffect(() => {
 		localStorage.setItem('posts', JSON.stringify(Posts));
 	}, [Posts]);
@@ -83,7 +92,7 @@ function Comunity() {
 										<textarea defaultValue={post.content}></textarea>
 									</div>
 									<nav>
-										<button>Cancle</button>
+										<button onClick={() => disableUpdate(idx)}>Cancle</button>
 										<button>Update</button>
 									</nav>
 								</article>
