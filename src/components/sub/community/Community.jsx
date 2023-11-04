@@ -7,6 +7,8 @@ import { useEffect, useRef, useState } from 'react';
 function Comunity() {
 	const refInput = useRef(null);
 	const refTextarea = useRef(null);
+	const refEditInput = useRef(null);
+	const refEditTextarea = useRef(null);
 
 	const getLocalData = () => {
 		const data = localStorage.getItem('posts');
@@ -54,6 +56,22 @@ function Comunity() {
 		)
 	}
 
+	const updatePost = (upDateIndex) => {
+		if(!refEditInput.current.value.trim() || !refEditTextarea.current.value.trim()) {
+			return alert('제목과 본문을 입력해주세요')
+		}
+		setPosts(
+			Posts.map((post, idx) => {
+				if(upDateIndex === idx) {
+					post.title = refEditInput.current.value
+					post.content = refEditTextarea.current.value
+					post.enableUpdata = false
+				}
+				return post;
+			})
+		)
+	}
+
 	useEffect(() => {
 		localStorage.setItem('posts', JSON.stringify(Posts));
 	}, [Posts]);
@@ -88,12 +106,12 @@ function Comunity() {
 							return (
 								<article key={idx}>
 									<div className='txt'>
-										<input type="text" defaultValue={post.title} />
-										<textarea defaultValue={post.content}></textarea>
+										<input type="text" defaultValue={post.title} ref={refEditInput} />
+										<textarea defaultValue={post.content} ref={refEditTextarea}></textarea>
 									</div>
 									<nav>
 										<button onClick={() => disableUpdate(idx)}>Cancle</button>
-										<button>Update</button>
+										<button onClick={() => updatePost(idx)}>Update</button>
 									</nav>
 								</article>
 							);
