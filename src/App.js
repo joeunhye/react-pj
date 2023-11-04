@@ -1,5 +1,6 @@
 import Footer from './components/common/footer/Footer';
 import Header from './components/common/header/Header';
+import News from './components/main/news/News';
 import Visual from './components/main/visual/Visual';
 import Community from './components/sub/community/Community';
 import Contact from './components/sub/contact/Contact';
@@ -16,7 +17,10 @@ function App() {
 	return (
 		<main className={useMedia({ tablet: 800 })}>
 			<Header />
-			<Route exact path='/' component={Visual} />
+			<Route exact path='/'>
+				<Visual />
+				<News />
+			</Route>
 			<Route path='/department' component={Department} />
 			<Route path='/community' component={Community} />
 			<Route path='/gallery' component={Gallery} />
