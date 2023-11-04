@@ -58,20 +58,27 @@ function Comunity() {
 				</div>
 
 				<div className='showBox'>
-					{Posts.map((post, idx) => (
-						<article key={idx}>
-							<div className='txt'>
-								<h2>{post.title}</h2>
-								<p>{post.content}</p>
-								<span>{post.date.toString()}</span>
-							</div>
-
-							<nav>
-								<button>Edit</button>
-								<button onClick={() => deletePost(idx)}>Delete</button>
-							</nav>
-						</article>
-					))}
+				{Posts.map((post, idx) => {
+						//현재시간값이 State에 옮겨담아지는 순간에는 객체값이고
+						//다음번 렌더링 싸이클에서 useEffect에 의해 문자로 변환된다음 로컬저장소에 저장됨
+						//날자값을 받는 첫번째 렌더링 타임에는 날짜값이 객체이므로 split구문에서 오류발생
+						//해결방법은 처음 렌더링을 도는 시점에서 날짜를 강제로 문자화한다음 출력처리
+						const stringDate = JSON.stringify(post.date);
+						const textedDate = stringDate.split('T')[0].split('"')[1].split('-').join('.');
+						return (
+							<article key={idx}>
+								<div className='txt'>
+									<h2>{post.title}</h2>
+									<p>{post.content}</p>
+									<span>{textedDate} </span>
+								</div>
+								<nav>
+									<button>Edit</button>
+									<button onClick={() => deletePost(idx)}>Delete</button>
+								</nav>
+							</article>
+						);
+					})}
 				</div>
 			</div>
 		</Layout>
