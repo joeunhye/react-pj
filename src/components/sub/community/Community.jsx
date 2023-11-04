@@ -9,6 +9,7 @@ function Comunity() {
 	const refTextarea = useRef(null);
 	const refEditInput = useRef(null);
 	const refEditTextarea = useRef(null);
+	const [allowed, setAllowed] = useState(true)
 
 	const getLocalData = () => {
 		const data = localStorage.getItem('posts');
@@ -39,6 +40,10 @@ function Comunity() {
 	};
 
 	const enableUpdate = (editIndex) => {
+		// Allowed값이 true일 때만 수정모드 진입가능하게 처리.
+		if(!allowed) return;
+		//일단 수정모드에 진입하면 Allowed값을 false로 변경해서 추가적으로 수정모드 진입불가처리
+		setAllowed(false)
 		setPosts(
 			Posts.map((post, idx) => {
 				if(editIndex === idx) post.enableUpdata = true
@@ -47,10 +52,12 @@ function Comunity() {
 		)
 	}
 
-	const disableUpdate = (cancleIndex) => {
+	const disableUpdate = (cancelIndex) => {
+		//수정취소시 다시 Allowed값 true변경해서 수정모드 가능하게 변경
+		setAllowed(true)
 		setPosts(
 			Posts.map((post, idx) => {
-				if(cancleIndex === idx) post.enableUpdata = false
+				if(cancelIndex === idx) post.enableUpdata = false
 				return post;
 			})
 		)
@@ -60,6 +67,8 @@ function Comunity() {
 		if(!refEditInput.current.value.trim() || !refEditTextarea.current.value.trim()) {
 			return alert('제목과 본문을 입력해주세요')
 		}
+		//수정완료시에도 다시 Allowed값 true변경해서 수정모드 가능하게 변경
+		setAllowed(true)
 		setPosts(
 			Posts.map((post, idx) => {
 				if(upDateIndex === idx) {

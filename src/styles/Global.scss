@@ -5,6 +5,10 @@
 	color: #111;
 	font-family: 'nanum myeongjo';
 }
+:root {
+	--boxGap: 40px;
+	--countColumn: 2
+}
 ul,
 ol,
 li {

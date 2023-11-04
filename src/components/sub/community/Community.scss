@@ -48,10 +48,12 @@
 			border-left: 1px solid #bbb;
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: space-between;
+			justify-content: flex-start;
+			gap: var(--boxGap);
 
 			article {
-				width: 32%;
+				//넓이 : (100% - 사이 간격 개수 + 간격 수치값) / 칼럼 개수
+				width: calc((100% - var(--boxGap)*(var(--countColumn) - 1)) / var(--countColumn));
 				height: 25vh;
 				background: rgb(220 186 255);
 				padding: 20px;
