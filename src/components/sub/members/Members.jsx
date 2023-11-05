@@ -36,6 +36,12 @@ export default function Members() {
 		if (value.userid.length < 5) {
 			errs.userid = '아이디는 최소 5글자 이상 입력하세요.';
 		}
+		if(!value.gender) {
+			errs.gender = '성별을 선택해주세요.';
+		}
+		if(value.interest.length === 0) {
+			errs.interest = '취미를 하나 이상 선택해주세요.';
+		}
 		return errs;
 	};
 
@@ -122,6 +128,7 @@ export default function Members() {
 
 											<input type='radio' defaultValue='male' id='male' name='gender' onChange={handleChange} />
 											<label htmlFor='male'>Male</label>
+											{Errs.gender && <p>{Errs.gender}</p>}
 										</td>
 									</tr>
 
@@ -145,6 +152,7 @@ export default function Members() {
 
 											<input type='checkbox' name='interest' id='game' defaultValue='game' onChange={handleCheck} />
 											<label htmlFor='game'>Game</label>
+											{Errs.interest && <p>{Errs.interest}</p>}
 										</td>
 									</tr>
 
