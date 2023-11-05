@@ -1,0 +1,81 @@
+.members {
+	.wrap {
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		.infoBox {
+			width: 30%;
+			padding-right: 50px;
+			border-right: 1px solid transparent;
+			border-image: radial-gradient(#bbb 90%, transparent) 1;
+
+			h2 {
+				font-size: 1.5rem;
+			}
+		}
+		.formBox {
+			width: 70%;
+			padding-left: 50px;
+
+			table {
+				width: 100%;
+
+				tr {
+					td {
+						padding: 30px 20px 10px;
+						position: relative;
+
+						&::after {
+							content: '';
+							display: block;
+							width: calc(100% - 40px);
+							height: 1px;
+							background: #888;
+							position: absolute;
+							bottom: 0;
+							left: 20px;
+						}
+
+						input[type='text'],
+						input[type='password'],
+						textarea {
+							width: 80%;
+							padding: 10px 0px 0px;
+							border: none;
+						}
+						select {
+							width: 100%;
+							border: none;
+						}
+						label {
+							margin-right: 40px;
+							font-size: 1rem;
+							color: #888;
+						}
+						input[type='checkbox'],
+						input[type='radio'] {
+							margin-right: 10px;
+						}
+						button {
+							background: #333;
+							margin-right: 20px;
+							width: 200px;
+							height: 40px;
+							border: none;
+							font-size: 1rem;
+							color: #fff;
+						}
+					}
+
+					&:last-child {
+						td::after {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+	}
+}
