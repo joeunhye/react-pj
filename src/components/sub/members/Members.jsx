@@ -16,8 +16,16 @@ export default function Members() {
 	const [Val, setVal] = useState(initVal.current);
 
 	const handleChange = e => {
-		const {name, value} = e.target;
+		const {name, value, tagName} = e.target;
 		setVal({...Val, [name]: value})
+	}
+
+	const handleCheck = e => {
+		const {name} = e.target;
+		let checkArr = [];
+		const inputs = e.target.parentElement.querySelectorAll('input')
+		inputs.forEach((input) => input.checked && checkArr.push(input.value))
+		setVal({...Val, [name]: checkArr})
 	}
 
 	useEffect(() => {
@@ -54,7 +62,7 @@ export default function Members() {
 
 									<tr>
 										<td colSpan='2'>
-											<select name='edu'>
+											<select name='edu' onChange={handleChange}>
 												<option defaultValue=''>Education</option>
 												<option defaultValue='elementary-school'>초등학교 졸업</option>
 												<option defaultValue='middle-school'>중학교 졸업</option>
@@ -65,25 +73,25 @@ export default function Members() {
 									</tr>
 									<tr>
 										<td colSpan='2'>
-											<input type='radio' defaultValue='female' id='female' name='gender' />
+											<input type='radio' defaultValue='female' id='female' name='gender' onChange={handleChange} />
 											<label htmlFor='female'>Female</label>
 
-											<input type='radio' defaultValue='male' id='male' name='gender' />
+											<input type='radio' defaultValue='male' id='male' name='gender' onChange={handleChange} />
 											<label htmlFor='male'>Male</label>
 										</td>
 									</tr>
 									<tr>
 										<td colSpan='2'>
-											<input type='checkbox' name='interest' id='sports' defaultValue='sports' />
+											<input type='checkbox' name='interest' id='sports' defaultValue='sports' onChange={handleCheck} />
 											<label htmlFor='sports'>Sports</label>
 
-											<input type='checkbox' name='interest' id='reading' defaultValue='reading' />
+											<input type='checkbox' name='interest' id='reading' defaultValue='reading' onChange={handleCheck} />
 											<label htmlFor='reading'>Reading</label>
 
-											<input type='checkbox' name='interest' id='music' defaultValue='music' />
+											<input type='checkbox' name='interest' id='music' defaultValue='music' onChange={handleCheck} />
 											<label htmlFor='music'>Music</label>
 
-											<input type='checkbox' name='interest' id='game' defaultValue='game' />
+											<input type='checkbox' name='interest' id='game' defaultValue='game' onChange={handleCheck} />
 											<label htmlFor='game'>Game</label>
 										</td>
 									</tr>
