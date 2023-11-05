@@ -3,6 +3,7 @@ import './Members.scss';
 import { useState, useRef, useEffect } from 'react';
 
 export default function Members() {
+	console.log('re-render');
 	const initVal = useRef({
 		userid: '',
 		email: '',
@@ -14,23 +15,41 @@ export default function Members() {
 		comments: '',
 	});
 	const [Val, setVal] = useState(initVal.current);
+	const [Errs, setErrs] = useState({});
 
-	const handleChange = e => {
-		const {name, value, tagName} = e.target;
-		setVal({...Val, [name]: value})
-	}
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setVal({ ...Val, [name]: value });
+	};
 
-	const handleCheck = e => {
-		const {name} = e.target;
+	const handleCheck = (e) => {
+		const { name } = e.target;
 		let checkArr = [];
-		const inputs = e.target.parentElement.querySelectorAll('input')
-		inputs.forEach((input) => input.checked && checkArr.push(input.value))
-		setVal({...Val, [name]: checkArr})
-	}
+		const inputs = e.target.parentElement.querySelectorAll('input');
+
+		inputs.forEach((input) => input.checked && checkArr.push(input.value));
+		setVal({ ...Val, [name]: checkArr });
+	};
+
+	const check = (value) => {
+		const errs = {};
+		if (value.userid.length < 5) {
+			errs.userid = '아이디는 최소 5글자 이상 입력하세요.';
+		}
+		return errs;
+	};
 
 	useEffect(() => {
-		console.log(Val);
-	}, [Val])
+		setErrs(check(Val));
+	}, [Val]);
+
+	//인증 로직 흐름
+	//1. onChange이벤트 발생시마다 handleChange, handleCheck를 이용해서 실시간으로 State값 갱신
+	//2. 실시간으로 변경되는 State값을 check함수의 인수로 전달
+	//3. check함수 내부적으로 전달되는 값의 형식에따서 인증로직을 구현
+	//4. check함수 내부적으로 데이터 항목별로 인증에 실해하면 해당 name값을 키값으로 해서 에러 property를 만들고 에러메세지 객체로 반환
+	//5. check함수가 실행된 이후에 반환되는 err객체가 없으면 인증성공이고 err객체가 있으면 해당 에러메세지를 출력
+
 	return (
 		<Layout title={'Members'}>
 			<div className='wrap'>
@@ -43,23 +62,46 @@ export default function Members() {
 							<legend className='h'>회원가입 폼</legend>
 							<table>
 								<tbody>
+									{/* userid, email (handleChange) */}
 									<tr>
 										<td>
-											<input type='text' name='userid' placeholder='User ID' value={Val.userid} onChange={handleChange} />
+											<input
+												type='text'
+												name='userid'
+												placeholder='User ID'
+												value={Val.userid}
+												onChange={handleChange}
+											/>
+											{Errs.userid && <p>{Errs.userid}</p>}
 										</td>
 										<td>
 											<input type='text' name='email' placeholder='Email' value={Val.email} onChange={handleChange} />
 										</td>
 									</tr>
+
+									{/* pwd1, pwd2 (handleChange) */}
 									<tr>
 										<td>
-											<input type='password' name='pwd1' placeholder='Password' value={Val.pwd1} onChange={handleChange} />
+											<input
+												type='password'
+												name='pwd1'
+												placeholder='Password'
+												value={Val.pwd1}
+												onChange={handleChange}
+											/>
 										</td>
 										<td>
-											<input type='password' name='pwd2' placeholder='Re-Password' value={Val.pwd2} onChange={handleChange} />
+											<input
+												type='password'
+												name='pwd2'
+												placeholder='Re-Password'
+												value={Val.pwd2}
+												onChange={handleChange}
+											/>
 										</td>
 									</tr>
 
+									{/* edu (handleChange) */}
 									<tr>
 										<td colSpan='2'>
 											<select name='edu' onChange={handleChange}>
@@ -71,6 +113,8 @@ export default function Members() {
 											</select>
 										</td>
 									</tr>
+
+									{/* gender (handleChange) */}
 									<tr>
 										<td colSpan='2'>
 											<input type='radio' defaultValue='female' id='female' name='gender' onChange={handleChange} />
@@ -80,12 +124,20 @@ export default function Members() {
 											<label htmlFor='male'>Male</label>
 										</td>
 									</tr>
+
+									{/* interests (handleCheck) */}
 									<tr>
 										<td colSpan='2'>
 											<input type='checkbox' name='interest' id='sports' defaultValue='sports' onChange={handleCheck} />
 											<label htmlFor='sports'>Sports</label>
 
-											<input type='checkbox' name='interest' id='reading' defaultValue='reading' onChange={handleCheck} />
+											<input
+												type='checkbox'
+												name='interest'
+												id='reading'
+												defaultValue='reading'
+												onChange={handleCheck}
+											/>
 											<label htmlFor='reading'>Reading</label>
 
 											<input type='checkbox' name='interest' id='music' defaultValue='music' onChange={handleCheck} />
@@ -95,9 +147,18 @@ export default function Members() {
 											<label htmlFor='game'>Game</label>
 										</td>
 									</tr>
+
+									{/* comments (handleChange) */}
 									<tr>
 										<td colSpan='2'>
-											<textarea name='comments' cols='30' rows='5' placeholder='Leave a comment' value={Val.comments} onChange={handleChange}></textarea>
+											<textarea
+												name='comments'
+												cols='30'
+												rows='5'
+												placeholder='Leave a comment'
+												value={Val.comments}
+												onChange={handleChange}
+											></textarea>
 										</td>
 									</tr>
 									<tr>
