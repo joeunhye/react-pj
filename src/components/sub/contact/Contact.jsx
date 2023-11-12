@@ -55,7 +55,7 @@ export default function Contact() {
 
 		window.addEventListener('resize', setCenter);
 	}, [Index]);
-
+  
 	//교통정보 보기 토글 기능
 	useEffect(() => {
 		Traffic
