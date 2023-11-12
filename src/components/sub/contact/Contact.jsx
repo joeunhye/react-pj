@@ -81,7 +81,7 @@ export default function Contact() {
 			<ul className='branch'>
 				{info.current.map((el, idx) => (
 					<li key={idx} className={idx === Index ? 'on' : ''} onClick={() => setIndex(idx)}>
-						{el.title}
+						{el.title}   
 					</li>
 				))}
 			</ul>
