@@ -1,15 +1,18 @@
 import { useRef, useEffect, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Contact.scss';
+import emailjs from '@emailjs/browser';
 
 export default function Contact() {
 	const { kakao } = window;
 	const mapFrame = useRef(null);
 	const viewFrame = useRef(null);
 	const mapInstance = useRef(null);
+	const form = useRef(null);
 	const [Index, setIndex] = useState(0);
 	const [Traffic, setTraffic] = useState(false);
 	const [View, setView] = useState(false);
+
 
 	const info = useRef([
 		{
@@ -45,7 +48,29 @@ export default function Contact() {
 		),
 	});
 
-	const setCenter = () => mapInstance.current.setCenter(info.current[Index].latlng);
+	const sendEmail = (e) => {
+		e.preventDefault();
+	
+		emailjs.sendForm('service_3gl8h0o', 'template_0oischp', form.current, 'nbe94GhHPql5TNg3s')
+		  .then((result) => {
+			  console.log(result.text);
+		  }, (error) => {
+			  console.log(error.text);
+		  });
+	};
+
+	const roadView = () => {
+		//roadview setting
+		//두번째 인수값 50(m단위)은 마커위치로부터 로드뷰가 출력될수 있는 가장 가까운 거리의 범위지정
+		new kakao.maps.RoadviewClient().getNearestPanoId(info.current[Index].latlng, 50, (id) => {
+			new kakao.maps.Roadview(viewFrame.current).setPanoId(id, info.current[Index].latlng);
+		});
+	};
+
+	const setCenter = () => {
+		mapInstance.current.setCenter(info.current[Index].latlng);
+		roadView();
+	};
 
 	useEffect(() => {
 		mapFrame.current.innerHTML = '';
@@ -55,13 +80,9 @@ export default function Contact() {
 		mapInstance.current.setZoomable(false);
 		marker.setMap(mapInstance.current);
 
-		//roadview setting
-		new kakao.maps.RoadviewClient().getNearestPanoId(info.current[Index].latlng, 50, (id) => {
-			new kakao.maps.Roadview(viewFrame.current).setPanoId(id, info.current[Index].latlng);
-		});
-
 		setTraffic(false);
 		setView(false);
+		roadView();
 
 		window.addEventListener('resize', setCenter);
 	}, [Index]);
@@ -79,22 +100,38 @@ export default function Contact() {
 
 	return (
 		<Layout title={'Contact us'}>
-			<div className='container'>
-				<article id='map' ref={mapFrame} className={View ? '' : 'on'}></article>
-				<article id='view' ref={viewFrame} className={View ? 'on' : ''}></article>
+			<div className="mailBox">
+				<form ref={form} onSubmit={sendEmail}>
+					<label>Name</label>
+					{/* from_name : 이메일 템플릿에서 전송하는 사람 이름 변수명*/}
+					<input type="text" name="from_name" />
+					<label>Email</label>
+					{/* reply_to : 이메일 템플릿에서 답장할 메일 주소 변수명 */}
+					<input type="email" name="reply_to" />
+					<label>Message</label>
+					{/* message : 이메일 템플릿에서 문의 메세지 변수명 */}
+					<textarea name="message" />
+					<input type="submit" value="Send" />
+				</form>
 			</div>
-
-			<ul className='branch'>
-				{info.current.map((el, idx) => (
-					<li key={idx} className={idx === Index ? 'on' : ''} onClick={() => setIndex(idx)}>
-						{el.title}
-					</li>
-				))}
-			</ul>
-
-			<button onClick={setCenter}>위치 초기화</button>
-			<button onClick={() => setTraffic(!Traffic)}>{Traffic ? '교통정보 끄기' : '교통정보 보기'}</button>
-			<button onClick={() => setView(!View)}>{View ? '지도보기' : '로드뷰보기'}</button>
+			<div className='mapBox'>
+				<div className='container'>
+					<article id='map' ref={mapFrame} className={View ? '' : 'on'}></article>
+					<article id='view' ref={viewFrame} className={View ? 'on' : ''}></article>
+				</div>
+				
+				<ul className='branch'>
+					{info.current.map((el, idx) => (
+						<li key={idx} className={idx === Index ? 'on' : ''} onClick={() => setIndex(idx)}>
+							{el.title}
+						</li>
+					))}
+				</ul>
+				
+				<button onClick={setCenter}>위치 초기화</button>
+				{!View && <button onClick={() => setTraffic(!Traffic)}>{Traffic ? '교통정보 끄기' : '교통정보 보기'}</button>}
+				<button onClick={() => setView(!View)}>{View ? '지도보기' : '로드뷰보기'}</button>
+			</div>
 		</Layout>
 	);
 }
