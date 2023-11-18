@@ -31,7 +31,7 @@ export default function Members() {
 		setVal({ ...Val, [name]: checkArr });
 	};
 
-	const check = (value) => {
+	const check = (value) => {   
 		const errs = {};
 		if (value.userid.length < 5) {
 			errs.userid = '아이디는 최소 5글자 이상 입력하세요.';
