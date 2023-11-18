@@ -37,7 +37,7 @@ export default function Members() {
 			errs.userid = '아이디는 최소 5글자 이상 입력하세요.';
 		}
 		if(!value.gender) {
-			errs.gender = '성별을 선택해주세요.';
+			errs.gender = '성별을 선택해주세요.';   
 		}
 		if(value.interest.length === 0) {
 			errs.interest = '취미를 하나 이상 선택해주세요.';
