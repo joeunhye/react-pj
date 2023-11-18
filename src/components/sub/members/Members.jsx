@@ -1,6 +1,7 @@
 import Layout from '../../common/layout/Layout';
 import './Members.scss';
 import { useState, useRef, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function Members() {
 	const initVal = useRef({
@@ -15,6 +16,7 @@ export default function Members() {
 	});
 	const [Val, setVal] = useState(initVal.current);
 	const [Errs, setErrs] = useState({});
+	const history = useHistory();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -83,6 +85,14 @@ export default function Members() {
 		return errs;
 	};
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if(Object.keys(check(Val)).length === 0) {
+			alert('회원가입을 축하합니다.');
+			history.push('/');
+		}
+	}
+
 	useEffect(() => {
 		setErrs(check(Val));
 	}, [Val]);
@@ -101,7 +111,7 @@ export default function Members() {
 					<h2>Join Members</h2>
 				</div>
 				<div className='formBox'>
-					<form>
+					<form onSubmit={handleSubmit}>
 						<fieldset>
 							<legend className='h'>회원가입 폼</legend>
 							<table>
@@ -215,8 +225,8 @@ export default function Members() {
 									</tr>
 									<tr>
 										<td colSpan='2'>
-											<button>Cancel</button>
-											<button>Submit</button>
+											<input type="reset" value='Cnacel' />
+											<input type="submit" value='Submit' />
 										</td>
 									</tr>
 								</tbody>

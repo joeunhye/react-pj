@@ -22,7 +22,7 @@ function News() {
 	}, [News]);
 
 	return (
-		<section className='news'>
+		<section className='news myScroll'>
 			{News.map((post, idx) => {
 				if (idx >= 5) return null;
 				return <h2 key={idx}>{post.title}</h2>;

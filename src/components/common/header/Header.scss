@@ -26,3 +26,14 @@ header {
 		}
 	}
 }
+
+header.main {
+	width: 100%;
+	padding: 5vh 10vw;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: transparent;
+	z-index: 2;
+	border-bottom: none;
+}

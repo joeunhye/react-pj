@@ -1,9 +1,9 @@
 import './Header.scss';
 import { NavLink, Link } from 'react-router-dom';
 
-export default function Header() {
+export default function Header({ isMain }) {
 	return (
-		<header>
+		<header className={isMain ? 'main' : ''}>
 			<h1>
 				<Link to='/'>DECODELAB ♥</Link>
 			</h1>

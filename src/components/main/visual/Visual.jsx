@@ -1,5 +1,5 @@
 import './Visual.scss';
 
 export default function Visual() {
-	return <figure></figure>;
+	return <figure className='myScroll'></figure>;
 }
