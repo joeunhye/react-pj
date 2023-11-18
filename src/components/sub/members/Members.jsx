@@ -31,23 +31,41 @@ export default function Members() {
 	};
 
 	const check = (value) => {
+		const txt = /[a-zA-Z]/;
+		const num = /[0-9]/;
+		const spc = /[!@#$%^&*()_+]/;
+
 		console.log('check func called!!');
 		const errs = {};
+		//text 인증로직
 		if (value.userid.length < 5) {
 			errs.userid = '아이디는 최소 5글자 이상 입력하세요.';
 		}
+		//pwd1 인증로직
+		if (value.pwd1.length < 5 || !txt.test(value.pwd1) || !num.test(value.pwd1) || !spc.test(value.pwd1)) {
+			errs.pwd1 = '비밀번호는 특수문자,영문,숫자포함해서 5글자 이상 입력하세요.';
+		}
+		//pwd2 인증로직
+		if (value.pwd1 !== value.pwd2 || !value.pwd2) {
+			errs.pwd2 = '두개의 비밀번호를 같게 입력하세요';
+		}
+		//textarea 인증로직
 		if (value.comments.length < 10) {
 			errs.comments = '남기는 말은 최소 10글자 이상 입력하세요.';
 		}
+		//radio버튼 인증로직
 		if (!value.gender) {
 			errs.gender = '성별을 선택해주세요.';
 		}
+		//select요소 인증로직
 		if (!value.edu) {
 			errs.edu = '최종학력을 선택해주세요.';
 		}
+		//checkbox인증로직
 		if (value.interest.length === 0) {
 			errs.interests = '취미를 하나이상 선택하세요.';
 		}
+		//email형식 인증로직
 		if (!value.email || !/@/.test(value.email)) {
 			errs.email = '이메일주소에는 @를 포함해야 합니다.';
 		} else {
@@ -61,6 +79,7 @@ export default function Members() {
 				}
 			}
 		}
+
 		return errs;
 	};
 
@@ -115,6 +134,7 @@ export default function Members() {
 												value={Val.pwd1}
 												onChange={handleChange}
 											/>
+											{Errs.pwd1 && <p>{Errs.pwd1}</p>}
 										</td>
 										<td>
 											<input
@@ -124,6 +144,7 @@ export default function Members() {
 												value={Val.pwd2}
 												onChange={handleChange}
 											/>
+											{Errs.pwd2 && <p>{Errs.pwd2}</p>}
 										</td>
 									</tr>
 
