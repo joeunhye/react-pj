@@ -1,10 +1,10 @@
 import './btns.scss';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Anime from '../../../asset/anime.js';
 
-function btns() {
+function Btns() {
 	//활성화순번, 버튼 그룹요소, section그룹요소가 담길 참조 객체 생성
-	const num = useRef(0);
+	const [Num, setNum] = useState(0);
 	const secs = useRef(null);
 	const btns = useRef(null);
 
@@ -19,11 +19,15 @@ function btns() {
 		});
 	};
 
+	const handleClick = (idx) => {
+		new Anime(window, { scroll: secs.current[idx].offsetTop }, { duration: 500, easeType: 'ease1' });
+	};
+
 	//컴포넌트 마운트시
 	useEffect(() => {
 		//빈 참조객체에 버튼과 section요소 담아줌
 		secs.current = document.querySelectorAll('.myScroll');
-		num.current = secs.current.length;
+		setNum(secs.current.length);
 
 		//window scroll이벤트에 activation함수 연결
 		window.addEventListener('scroll', activation);
@@ -33,13 +37,9 @@ function btns() {
 		};
 	}, []);
 
-	const handleClick = (idx) => {
-		new Anime(window, { scroll: secs.current[idx].offsetTop }, { duration: 500, easeType: 'ease1' });
-	};
-
 	return (
 		<ul className='btns' ref={btns}>
-			{Array(num.current)
+			{Array(Num)
 				.fill()
 				.map((_, idx) => {
 					return <li key={idx} className={idx === 0 ? 'on' : ''} onClick={() => handleClick(idx)}></li>;
@@ -48,4 +48,4 @@ function btns() {
 	);
 }
 
-export default btns;
+export default Btns;
