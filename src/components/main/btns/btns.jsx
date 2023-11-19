@@ -14,7 +14,10 @@ function Btns() {
 		secs.current.forEach((el, idx) => {
 			if (scroll >= el.offsetTop - window.innerHeight / 2) {
 				Array.from(btns.current.children).forEach((btn) => btn.classList.remove('on'));
-				btns.current.children[idx].classList.add('on');
+				btns.current.children[idx]?.classList.add('on');
+
+				Array.from(secs.current).forEach((sec) => sec.classList.remove('on'));
+				secs.current[idx].classList.add('on');
 			}
 		});
 	};
@@ -37,12 +40,16 @@ function Btns() {
 		};
 	}, []);
 
+	useEffect(() => {
+		activation();
+	}, [Num])
+
 	return (
 		<ul className='btns' ref={btns}>
 			{Array(Num)
 				.fill()
 				.map((_, idx) => {
-					return <li key={idx} className={idx === 0 ? 'on' : ''} onClick={() => handleClick(idx)}></li>;
+					return <li key={idx} onClick={() => handleClick(idx)}></li>;
 				})}
 		</ul>
 	);
