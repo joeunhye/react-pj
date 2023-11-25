@@ -25,8 +25,8 @@ function Btns() {
 			}
 		});
 	};
-	const activation2 = useThrottle(activation);
 
+	const activation2 = useThrottle(activation);
 	const handleClick = (idx) => {
 		new Anime(window, { scroll: secs.current[idx].offsetTop }, { duration: 500, easeType: 'ease1' });
 	};
@@ -43,7 +43,7 @@ function Btns() {
 		return () => {
 			window.removeEventListener('scroll', activation2);
 		};
-	}, []);
+	}, [activation2]);
 
 	useEffect(() => {
 		activation();

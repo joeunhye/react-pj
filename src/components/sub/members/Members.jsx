@@ -1,3 +1,4 @@
+import { useDebounce } from '../../../hooks/useDebounce';
 import Layout from '../../common/layout/Layout';
 import './Members.scss';
 import { useState, useRef, useEffect } from 'react';
@@ -18,6 +19,8 @@ export default function Members() {
 	const [Errs, setErrs] = useState({});
 	const history = useHistory();
 
+	const debouncedVal = useDebounce(Val);
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setVal({ ...Val, [name]: value });
@@ -33,6 +36,7 @@ export default function Members() {
 	};
 
 	const check = (value) => {
+		console.log('check');
 		const txt = /[a-zA-Z]/;
 		const num = /[0-9]/;
 		const spc = /[!@#$%^&*()_+]/;
@@ -87,15 +91,15 @@ export default function Members() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if(Object.keys(check(Val)).length === 0) {
+		if (Object.keys(check(Val)).length === 0) {
 			alert('회원가입을 축하합니다.');
 			history.push('/');
 		}
-	}
+	};
 
 	useEffect(() => {
-		setErrs(check(Val));
-	}, [Val]);
+		setErrs(check(debouncedVal));
+	}, [debouncedVal]);
 
 	//인증 로직 흐름
 	//1. onChange이벤트 발생시마다 handleChange, handleCheck를 이용해서 실시간으로 State값 갱신
@@ -119,13 +123,7 @@ export default function Members() {
 									{/* userid, email (handleChange) */}
 									<tr>
 										<td>
-											<input
-												type='text'
-												name='userid'
-												placeholder='User ID'
-												value={Val.userid}
-												onChange={handleChange}
-											/>
+											<input type='text' name='userid' placeholder='User ID' value={Val.userid} onChange={handleChange} />
 											{Errs.userid && <p>{Errs.userid}</p>}
 										</td>
 										<td>
@@ -137,23 +135,11 @@ export default function Members() {
 									{/* pwd1, pwd2 (handleChange) */}
 									<tr>
 										<td>
-											<input
-												type='password'
-												name='pwd1'
-												placeholder='Password'
-												value={Val.pwd1}
-												onChange={handleChange}
-											/>
+											<input type='password' name='pwd1' placeholder='Password' value={Val.pwd1} onChange={handleChange} />
 											{Errs.pwd1 && <p>{Errs.pwd1}</p>}
 										</td>
 										<td>
-											<input
-												type='password'
-												name='pwd2'
-												placeholder='Re-Password'
-												value={Val.pwd2}
-												onChange={handleChange}
-											/>
+											<input type='password' name='pwd2' placeholder='Re-Password' value={Val.pwd2} onChange={handleChange} />
 											{Errs.pwd2 && <p>{Errs.pwd2}</p>}
 										</td>
 									</tr>
@@ -191,13 +177,7 @@ export default function Members() {
 											<input type='checkbox' name='interest' id='sports' defaultValue='sports' onChange={handleCheck} />
 											<label htmlFor='sports'>Sports</label>
 
-											<input
-												type='checkbox'
-												name='interest'
-												id='reading'
-												defaultValue='reading'
-												onChange={handleCheck}
-											/>
+											<input type='checkbox' name='interest' id='reading' defaultValue='reading' onChange={handleCheck} />
 											<label htmlFor='reading'>Reading</label>
 
 											<input type='checkbox' name='interest' id='music' defaultValue='music' onChange={handleCheck} />
@@ -225,8 +205,8 @@ export default function Members() {
 									</tr>
 									<tr>
 										<td colSpan='2'>
-											<input type="reset" value='Cnacel' />
-											<input type="submit" value='Submit' />
+											<input type='reset' value='Cnacel' />
+											<input type='submit' value='Submit' />
 										</td>
 									</tr>
 								</tbody>
