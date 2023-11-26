@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import './Info.scss';
 import { useGetCurrentScroll } from '../../../hooks/useGetCurrentScroll';
 
@@ -7,15 +7,15 @@ function Info() {
 	const boxEl = useRef(null);
 	const getScroll = useGetCurrentScroll();
 
-	const handleClick = () => {
+	const handleClick = useCallback(() => {
 		const modifiedScroll = getScroll(currentEl);
 		boxEl.current.style.transform = `rotate(${modifiedScroll}deg) scale(${1 + modifiedScroll / 300})`;
-	};
+	}, [getScroll]);
 
 	useEffect(() => {
 		window.addEventListener('scroll', handleClick);
 		return () => window.removeEventListener('scroll', handleClick);
-	}, []);
+	}, [handleClick]);
 
 	return (
 		<section className='info myScroll' ref={currentEl}>
