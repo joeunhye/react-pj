@@ -21,9 +21,10 @@ figure {
 				opacity: 0;
 				padding-top: 10vh;
 				transform: translateX(-100px) scale(2);
+				z-index: 1;
 				transition: opacity 1s, transform 1s;
 
-				span {
+				a {
 					background: transparent;
 					border: none;
 					display: inline-block;
@@ -67,9 +68,10 @@ figure {
 
 				&.on {
 					opacity: 1;
+					z-index: 2;
 					transform: translateX(0px) scale(1);
 
-					span {
+					a {
 						&::before,
 						&::after {
 							width: 100%;
@@ -129,6 +131,9 @@ figure {
 						}
 					}
 				}
+				h3 {
+					display: none;
+				}
 			}
 
 			.swiper-slide-prev {
@@ -169,8 +174,14 @@ figure {
 					.pic {
 						width: 80vw;
 						margin: 0px auto;
-						height: 80%;
+						height: 70%;
 						margin-bottom: 50px;
+					}
+					h3 {
+						display: block;
+						width: 80vw;
+						margin: 0 auto;
+						font-size: 2rem;
 					}
 				}
 			}

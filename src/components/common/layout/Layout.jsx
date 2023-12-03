@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import './Layout.scss';
-import { useSplitText } from '../../../hooks/useSplitText';
+import { useSplitText } from '../../../hooks/useText';
 
 export default function Layout({ title, children }) {
 	let newClass = title.toLowerCase().split(' ').join('_');

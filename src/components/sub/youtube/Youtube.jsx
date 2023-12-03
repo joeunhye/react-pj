@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import { Link } from 'react-router-dom';
 import './Youtube.scss';
+import { useCustomText } from '../../../hooks/useText';
 
 export default function Youtube() {
 	const [vids, setVids] = useState([]);
+	const shortenText = useCustomText('shorten');
+	const changeText = useCustomText('combined');
 
 	const fetchYoutube = async () => {
 		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
@@ -22,18 +25,20 @@ export default function Youtube() {
 	return (
 		<Layout title={'Youtube'}>
 			{vids.map((data, idx) => {
-				const title = data.snippet.title;
-				const desc = data.snippet.description;
+				// const title = data.snippet.title;
+				// const desc = data.snippet.description;
 				const [date, time] = data.snippet.publishedAt.split('T');
 
 				return (
 					<article key={idx}>
-						<h2>{title}</h2>
+						<h2>{shortenText(data.snippet.title, 150)}</h2>
 
 						<div className='txt'>
-							<p>{desc.length > 200 ? desc.substr(0, 200) + '...' : desc}</p>
-							<div className='info'>
-								<span>{date.split('-').join('.')}</span>
+							{/* <p>{desc.length > 200 ? desc.substr(0, 200) + '...' : desc}</p> */}
+							<p>{shortenText(data.snippet.description, 150)}</p>
+							<div className='infoBox'>
+								{/* <span>{date.split('-').join('.')}</span> */}
+								<span>{changeText(date, '-')}</span>
 								<em>{time.split('Z')[0]}</em>
 							</div>
 						</div>

@@ -3,6 +3,7 @@ import './Visual.scss';
 import 'swiper/css';
 import { Autoplay } from 'swiper';
 import { useEffect, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Visual() {
 	const [SlideData, setSlideData] = useState([]);
@@ -43,9 +44,9 @@ export default function Visual() {
 							<li key={idx} className={idx === ActiveIndex ? 'on' : ''}>
 								{/* {txt.name} */}
 								<h3>{txt.snippet.title}</h3>
-								<span>
+								<Link to={`/detail/${txt.id}`}>
 									<em>view Detail</em>
-								</span>
+								</Link>
 							</li>
 						);
 					})}
@@ -84,6 +85,7 @@ export default function Visual() {
 									<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
 								</p>
 							</div>
+							<h3>{data.snippet.title}</h3>
 						</SwiperSlide>
 					);
 				})}
