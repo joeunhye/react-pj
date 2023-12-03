@@ -4,10 +4,12 @@ import 'swiper/css';
 import { Autoplay } from 'swiper';
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useCustomText } from '../../../hooks/useText';
 
 export default function Visual() {
 	const [SlideData, setSlideData] = useState([]);
 	const [ActiveIndex, setActiveIndex] = useState(0);
+	const shortenText = useCustomText('shorten');
 
 	const path = useRef(process.env.PUBLIC_URL);
 
@@ -43,7 +45,7 @@ export default function Visual() {
 						return (
 							<li key={idx} className={idx === ActiveIndex ? 'on' : ''}>
 								{/* {txt.name} */}
-								<h3>{txt.snippet.title}</h3>
+								<h3>{shortenText(txt.snippet.title, 50)}</h3>
 								<Link to={`/detail/${txt.id}`}>
 									<em>view Detail</em>
 								</Link>
