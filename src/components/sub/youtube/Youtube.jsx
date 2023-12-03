@@ -8,7 +8,7 @@ export default function Youtube() {
 
 	const fetchYoutube = async () => {
 		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
-		const pid = process.env.REACT_APP_PLAYLISY;
+		const pid = process.env.REACT_APP_PLAYLIST;
 		const num = 10;
 		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
 		const data = await fetch(baseURL);

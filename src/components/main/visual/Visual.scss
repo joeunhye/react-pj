@@ -2,16 +2,13 @@ figure {
 	width: 100%;
 	height: calc(100vh - 120px);
 	margin-top: 120px;
-	background-color: rgb(33, 187, 187);
 	position: relative;
 	z-index: 1;
-	text-align: right;
 	display: flex;
 	justify-content: space-between;
 
 	.txtBox {
 		width: 40%;
-		border: 1px solid blue;
 		transform: translateX(10vw);
 		padding: 10vw 0;
 
@@ -20,14 +17,70 @@ figure {
 				position: absolute;
 				top: 20%;
 				left: 0;
-				font-size: 4rem;
+				font-size: 3rem;
 				opacity: 0;
+				padding-top: 10vh;
 				transform: translateX(-100px) scale(2);
 				transition: opacity 1s, transform 1s;
+
+				span {
+					background: transparent;
+					border: none;
+					display: inline-block;
+					padding: 10px 5px;
+					font-size: 1rem;
+					margin-top: 10vh;
+					position: relative;
+
+					em {
+						display: inline-block;
+						transform: scale(2);
+						opacity: 0;
+						transition: 0.5s 1.2s;
+					}
+
+					&::before {
+						content: '';
+						display: block;
+						width: 0%;
+						height: 1px;
+						background: #999;
+						position: absolute;
+						top: 0;
+						left: -10px;
+						opacity: 0;
+						transition: 0.5s 0.5s;
+					}
+					&::after {
+						content: '';
+						display: block;
+						width: 0%;
+						height: 1px;
+						background: #999;
+						position: absolute;
+						bottom: 0;
+						right: -10px;
+						opacity: 0;
+						transition: 0.5s 0.8s;
+					}
+				}
 
 				&.on {
 					opacity: 1;
 					transform: translateX(0px) scale(1);
+
+					span {
+						&::before,
+						&::after {
+							width: 100%;
+							opacity: 1;
+						}
+
+						em {
+							opacity: 1;
+							transform: scale(1);
+						}
+					}
 				}
 			}
 		}
