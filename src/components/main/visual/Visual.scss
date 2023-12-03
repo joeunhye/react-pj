@@ -6,12 +6,38 @@ figure {
 	position: relative;
 	z-index: 1;
 	text-align: right;
+	display: flex;
+	justify-content: space-between;
+
+	.txtBox {
+		width: 40%;
+		border: 1px solid blue;
+		transform: translateX(10vw);
+		padding: 10vw 0;
+
+		ul {
+			li {
+				position: absolute;
+				top: 20%;
+				left: 0;
+				font-size: 4rem;
+				opacity: 0;
+				transform: translateX(-100px) scale(2);
+				transition: opacity 1s, transform 1s;
+
+				&.on {
+					opacity: 1;
+					transform: translateX(0px) scale(1);
+				}
+			}
+		}
+	}
 
 	.swiper {
 		display: inline-block;
 		width: 75%;
 		height: 100%;
-		padding: 8vw 0px;
+		padding: 10vw 0px;
 
 		.swiper-wrapper {
 			height: inherit;

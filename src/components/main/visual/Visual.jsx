@@ -6,6 +6,8 @@ import { useEffect, useState, useRef } from 'react';
 
 export default function Visual() {
 	const [SlideData, setSlideData] = useState([]);
+	const [ActiveIndex, setActiveIndex] = useState(0);
+
 	const path = useRef(process.env.PUBLIC_URL);
 
 	const fetchData = async () => {
@@ -18,8 +20,22 @@ export default function Visual() {
 		fetchData();
 	}, []);
 
+	console.log(ActiveIndex);
+
 	return (
 		<figure className='myScroll'>
+			<div className='txtBox'>
+				<ul>
+					{SlideData.map((txt, idx) => {
+						if (idx >= 5) return null;
+						return (
+							<li key={idx} className={idx === ActiveIndex ? 'on' : ''}>
+								{txt.name}
+							</li>
+						);
+					})}
+				</ul>
+			</div>
 			<Swiper
 				modules={[Autoplay]}
 				spaceBetween={50}
@@ -27,6 +43,7 @@ export default function Visual() {
 				loop={true}
 				centeredSlides={true}
 				autoplay={{ delay: 2000, disableOnInteraction: true }}
+				onSlideChange={(el) => setActiveIndex(el.realIndex)}
 			>
 				{SlideData.map((data, idx) => {
 					if (idx >= 5) return null;
