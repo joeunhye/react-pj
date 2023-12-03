@@ -2,15 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
 
 header {
-	width: 100%;
-	padding: 30px 15vw;
-	border-bottom: 1px solid #ddd;
+	width: calc(70vw + 10px);
+	padding: 30px 5px;
+	border-bottom: 1px solid #bbb;
 	display: flex;
 	justify-content: space-between;
+	margin: 0 auto;
 
 	h1 {
-		font: bold 1.3rem/1 'nanum myeongjo';
-		color: #222;
+		font-weight: bold;
+		font-size: 1.2rem;
+		opacity: 0.9;
 	}
 
 	ul {
@@ -25,6 +27,9 @@ header {
 			}
 		}
 	}
+	.bars {
+		display: none;
+	}
 }
 
 header.main {
@@ -36,4 +41,16 @@ header.main {
 	background: transparent;
 	z-index: 2;
 	border-bottom: none;
+}
+
+.tablet,
+.mobile {
+	header {
+		ul {
+			display: none;
+		}
+		.bars {
+			display: block;
+		}
+	}
 }

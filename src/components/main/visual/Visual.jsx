@@ -53,12 +53,22 @@ export default function Visual() {
 			</div>
 			<Swiper
 				modules={[Autoplay]}
-				spaceBetween={50}
-				slidesPerView={3}
+				spaceBetween={0}
+				slidesPerView={1}
 				loop={true}
 				centeredSlides={true}
 				autoplay={{ delay: 2000, disableOnInteraction: true }}
 				onSlideChange={(el) => setActiveIndex(el.realIndex)}
+				breakpoints={{
+					1000: {
+						slidesPerView: 2,
+						spaceBetween: 50,
+					},
+					1400: {
+						slidesPerView: 3,
+						spaceBetween: 50,
+					},
+				}}
 			>
 				{SlideData.map((data, idx) => {
 					if (idx >= 5) return null;
@@ -67,8 +77,12 @@ export default function Visual() {
 							<div className='pic'>
 								{/* <img src={`${path.current}/img/${data.pic}`} alt='' />
 								<img src={`${path.current}/img/${data.pic}`} alt='' /> */}
-								<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
-								<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
+								<p>
+									<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
+								</p>
+								<p>
+									<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
+								</p>
 							</div>
 						</SwiperSlide>
 					);
