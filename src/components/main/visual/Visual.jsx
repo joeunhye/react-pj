@@ -26,13 +26,19 @@ export default function Visual() {
 				slidesPerView={3}
 				loop={true}
 				centeredSlides={true}
-				autoplay={{ delay: 2000, disableOnInteraction: false }}
+				autoplay={{ delay: 2000, disableOnInteraction: true }}
 			>
-				{SlideData.map((data, idx) => (
-					<SwiperSlide key={idx}>
-						<img src={`${path.current}/img/${data.pic}`} alt='' />
-					</SwiperSlide>
-				))}
+				{SlideData.map((data, idx) => {
+					if (idx >= 5) return null;
+					return (
+						<SwiperSlide key={idx}>
+							<div className='pic'>
+								<img src={`${path.current}/img/${data.pic}`} alt='' />
+								<img src={`${path.current}/img/${data.pic}`} alt='' />
+							</div>
+						</SwiperSlide>
+					);
+				})}
 			</Swiper>
 		</figure>
 	);
