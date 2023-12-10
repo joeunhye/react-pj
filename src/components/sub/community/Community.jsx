@@ -11,6 +11,11 @@ function Comunity() {
 	const refEditTextarea = useRef(null);
 	const [allowed, setAllowed] = useState(true);
 
+	const len = useRef(0); // 전체 포스트이 개수가 담길 참조객체
+	const perNum = useRef(3); // 페이지 갯수가 담딜 참조객체
+	const pageNum = useRef(0); // 페이지 당 보일 포스트 개수가 담긴 참조객체
+	const [PageNum, setPageNum] = useState(0);
+
 	const getLocalData = () => {
 		const data = localStorage.getItem('posts');
 		return data ? JSON.parse(data) : [];
@@ -86,10 +91,21 @@ function Comunity() {
 		//Posts 데이터가 변경되면 수정모드를 강제로 false처리해서 로컬 저장소에 저장
 		Posts.map((el) => (el.enableUpdata = false));
 		localStorage.setItem('posts', JSON.stringify(Posts));
+		len.current = Posts.length;
+
+		pageNum.current = len.current % perNum.current === 0 ? len.current / perNum.current : parseInt(len.current / perNum.current) + 1;
+		setPageNum(pageNum.current);
 	}, [Posts]);
 
 	return (
 		<Layout title={'Community'}>
+			<nav className='pagenation'>
+				{Array(PageNum)
+					.fill()
+					.map((_, idx) => {
+						return <button key={idx}>{idx + 1}</button>;
+					})}
+			</nav>
 			<div className='wrap'>
 				<div className='inputBox'>
 					<input type='text' placeholder='title' ref={refInput} />
