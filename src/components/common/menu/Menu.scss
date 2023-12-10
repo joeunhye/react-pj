@@ -5,5 +5,37 @@
 	position: fixed;
 	left: 0;
 	top: 0;
-	z-index: 7;
+	z-index: 6;
+	color: var(--bgColor);
+	padding: 50px;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: space-between;
+
+	> * {
+		width: 100%;
+	}
+
+	h1 {
+		font-size: 1.5rem;
+	}
+
+	ul {
+		li {
+			a {
+				display: block;
+				padding: 15px 5px;
+				font-size: 1.2rem;
+				border-bottom: 1px solid rgba(var(--bgColor-code), 0.2);
+				&.on {
+					color: red;
+				}
+			}
+			&:last-child {
+				a {
+					border: none;
+				}
+			}
+		}
+	}
 }
