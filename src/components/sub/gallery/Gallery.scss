@@ -16,26 +16,27 @@
 				border: none;
 				cursor: pointer;
 				padding: 7px 0px;
-				border-bottom: 1px solid #ccc;
+				border-bottom: 1px solid rgba(var(--baseColor-code), 0.3);
 				font-size: 1rem;
-				color: #888;
+				color: var(--baseColor);
+				opacity: 0.6;
 				position: relative;
 				transition: 0.5s;
 
 				&::after {
-					content: '';
+					content: "";
 					position: absolute;
 					bottom: 0;
 					left: 0;
 					width: 0%;
 					height: 1px;
-					background: #333;
+					background: var(--baseColor);
 					transition: 0.5s;
 				}
 
 				&:hover,
 				&.on {
-					color: #000;
+					color: var(--baseColor);
 
 					&::after {
 						width: 100%;
@@ -52,7 +53,7 @@
 			input {
 				width: 120px;
 				border: none;
-				border-bottom: 1px solid #777;
+				border-bottom: 1px solid rgba(var(--baseColor-code), 0.3);
 				padding: 6px 10px;
 				outline: 0;
 			}
@@ -73,7 +74,7 @@
 
 			.inner {
 				width: 100%;
-				border-bottom: 1px solid #bbb;
+				border-bottom: 1px solid rgba(var(--baseColor-code), 0.3);
 
 				.pic {
 					width: 100%;

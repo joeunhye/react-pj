@@ -1,10 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
-
 footer {
 	width: 70vw;
 	margin: 0px auto;
 	padding: 60px 0;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid rgba(var(--baseColor-code), 0.3);
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -12,12 +10,13 @@ footer {
 	h1 {
 		display: flex;
 		align-items: center;
-		font: normal 1.5rem/1 'nanum myeongjo';
-		color: #222;
+		font: normal 1.5rem/1 "nanum myeongjo";
+		color: var(--baseColor);
 	}
 	p {
-		font: normal 1rem/1 'nanum myeongjo';
-		color: #444;
+		font: normal 1rem/1 "nanum myeongjo";
+		color: var(--baseColor);
+		opacity: 0.8;
 	}
 
 	ul {

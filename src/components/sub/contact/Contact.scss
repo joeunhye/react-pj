@@ -3,38 +3,38 @@
 		background: orange;
 	}
 
-	.mailBox {}
+	.mailBox {
+	}
 
 	.mapBox {
 		.container {
-			width:100%;
+			width: 100%;
 			height: 50vh;
-			background: #111;
+			background: var(--baseColor);
 			position: relative;
 			margin-bottom: 20px;
-	
+
 			> article {
+				width: 100%;
+				height: 100%;
+				background: var(--baseColor);
 				position: absolute;
 				top: 0;
 				left: 0;
-				width: 100%;
-				height: 100%;
-				background: #111;
 				opacity: 0;
 				z-index: 1;
-	
+
 				&.on {
 					opacity: 1;
 					z-index: 2;
 				}
 			}
-	
 		}
-	
+
 		.branch {
 			li {
 				&.on {
-					color: hotpink;
+					color: var(--pointColor);
 				}
 			}
 		}

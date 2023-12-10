@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useRef } from 'react';
-import './Banner.scss';
-import { useGetCurrentScroll } from '../../../hooks/useGetCurrentScroll';
+import { useCallback, useEffect, useRef, useState } from "react";
+import "./Banner.scss";
+import { useGetCurrentScroll } from "../../../hooks/useGetCurrentScroll";
 
 function Banner() {
+	const [Frame, setFrame] = useState(null);
 	const currentEl = useRef(null);
 	const titleEl = useRef(null);
-	const getScroll = useGetCurrentScroll();
+	const getScroll = useGetCurrentScroll(Frame);
 
 	//handleScroll에 대입되어 있는 함수가 컴포넌트 재랜더링시마다 계속 읽히기 때문에
 	//useCallback을 통해서 강제로 메모리에 등록해서 기존 함수 내용을 재활용하는 메모이제이션 처리
@@ -16,13 +17,16 @@ function Banner() {
 	}, [getScroll]);
 
 	useEffect(() => {
-		window.addEventListener('scroll', handleScroll);
+		setFrame(currentEl.current?.closest(".wrap"));
+	}, []);
 
-		return () => window.removeEventListener('scroll', handleScroll);
-	}, [handleScroll]);
+	useEffect(() => {
+		Frame?.addEventListener("scroll", handleScroll);
+		return () => Frame?.removeEventListener("scroll", handleScroll);
+	}, [Frame, handleScroll]);
 
 	return (
-		<section className='banner myScroll' ref={currentEl}>
+		<section className="banner myScroll" ref={currentEl}>
 			<h1 ref={titleEl}>Banner</h1>
 		</section>
 	);

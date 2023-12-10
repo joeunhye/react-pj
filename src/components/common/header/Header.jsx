@@ -1,47 +1,51 @@
-import './Header.scss';
-import { NavLink, Link } from 'react-router-dom';
-import { HiBars4 } from 'react-icons/hi2';
+import "./Header.scss";
+import { NavLink, Link } from "react-router-dom";
+import { HiBars4 } from "react-icons/hi2";
 
-export default function Header({ isMain }) {
+export default function Header({ isMain, IsDark, setIsDark }) {
 	return (
-		<header className={isMain ? 'main' : ''}>
+		<header className={isMain ? "main" : ""}>
 			<h1>
-				<Link to='/'>DECODELAB ♥</Link>
+				<Link to="/">DECODELAB ♥</Link>
 			</h1>
 			<ul>
 				<li>
-					<NavLink to='/department' activeClassName={'on'}>
+					<NavLink to="/department" activeClassName={"on"}>
 						Department
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='/community' activeClassName={'on'}>
+					<NavLink to="/community" activeClassName={"on"}>
 						Community
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='/gallery' activeClassName={'on'}>
+					<NavLink to="/gallery" activeClassName={"on"}>
 						Gallery
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='/youtube' activeClassName={'on'}>
+					<NavLink to="/youtube" activeClassName={"on"}>
 						Youtube
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='/members' activeClassName={'on'}>
+					<NavLink to="/members" activeClassName={"on"}>
 						Members
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='/contact' activeClassName={'on'}>
+					<NavLink to="/contact" activeClassName={"on"}>
 						Contact
 					</NavLink>
 				</li>
 			</ul>
 
-			<HiBars4 fontSize={20} color={'#777'} className='bars' />
+			<div className={`themeBox ${IsDark && "dark"}`} onClick={() => setIsDark(!IsDark)}>
+				<div className="ball"></div>
+			</div>
+
+			<HiBars4 fontSize={20} color={"#777"} className="bars" />
 		</header>
 	);
 }
