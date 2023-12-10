@@ -1,4 +1,24 @@
 .community {
+	.pagination {
+		margin-bottom: 50px;
+		display: flex;
+		gap: 10px;
+
+		button {
+			color: var(--baseColor);
+			border: 1px solid rgba(var(--baseColor-code), 0.5);
+			background: transparent;
+			padding: 3px 5px;
+			cursor: pointer;
+			opacity: 0.3;
+
+			&.on {
+				opacity: 1;
+				color: var(--pointColor);
+			}
+		}
+	}
+
 	.wrap {
 		width: 100%;
 		display: flex;
@@ -74,13 +94,13 @@
 						color: var(--baseColor);
 					}
 					p {
-						font: 0.8rem/1.4 "arial";
+						font: 0.8rem/1.4 'arial';
 						color: var(--baseColor);
 						opacity: 0.6;
 						margin-bottom: 40px;
 					}
 					span {
-						font: 0.6rem/1 "arial";
+						font: 0.6rem/1 'arial';
 						color: var(--pointColor);
 					}
 

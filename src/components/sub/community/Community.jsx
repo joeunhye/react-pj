@@ -1,27 +1,29 @@
 import './Community.scss';
 import Layout from '../../common/layout/Layout';
 import { TfiWrite } from 'react-icons/tfi';
-import { ImCancelCircle } from 'react-icons/im';
-import { useEffect, useRef, useState } from 'react';
+import { RxReset } from 'react-icons/rx';
+import { useRef, useState, useEffect } from 'react';
+import { useCustomText } from '../../../hooks/useText';
 
 function Comunity() {
-	const refInput = useRef(null);
-	const refTextarea = useRef(null);
-	const refEditInput = useRef(null);
-	const refEditTextarea = useRef(null);
-	const [allowed, setAllowed] = useState(true);
-
-	const len = useRef(0); // 전체 포스트이 개수가 담길 참조객체
-	const perNum = useRef(3); // 페이지 갯수가 담딜 참조객체
-	const pageNum = useRef(0); // 페이지 당 보일 포스트 개수가 담긴 참조객체
-	const [PageNum, setPageNum] = useState(0);
-
+	const changeText = useCustomText('combined');
 	const getLocalData = () => {
 		const data = localStorage.getItem('posts');
-		return data ? JSON.parse(data) : [];
+		if (data) return JSON.parse(data);
+		else return [];
 	};
+	const refInput = useRef(null);
+	const refTextarea = useRef(null);
+	const editInput = useRef(null);
+	const editTextarea = useRef(null);
+	const len = useRef(0); //전체 포스트 갯수가 담길 참조객체
+	const pageNum = useRef(0); //페이지 갯수가 담길 참조객체
+	const perNum = useRef(6); //페이지당 보일 포스트 갯수가 담긴 참조객체
 
 	const [Posts, setPosts] = useState(getLocalData());
+	const [Allowed, setAllowed] = useState(true);
+	const [PageNum, setPageNum] = useState(0);
+	const [CurNum, setCurNum] = useState(0);
 
 	const resetPost = () => {
 		refInput.current.value = '';
@@ -31,9 +33,8 @@ function Comunity() {
 	const createPost = () => {
 		if (!refInput.current.value.trim() || !refTextarea.current.value.trim()) {
 			resetPost();
-			return alert('제목과 본문을 모두 입력해주세요.');
+			return alert('제목과 본문을 모두 입력하세요.');
 		}
-
 		const korTime = new Date().getTime() + 1000 * 60 * 60 * 9;
 
 		setPosts([{ title: refInput.current.value, content: refTextarea.current.value, date: new Date(korTime) }, ...Posts]);
@@ -46,41 +47,36 @@ function Comunity() {
 	};
 
 	const enableUpdate = (editIndex) => {
-		// Allowed값이 true일 때만 수정모드 진입가능하게 처리.
-		if (!allowed) return;
-		//일단 수정모드에 진입하면 Allowed값을 false로 변경해서 추가적으로 수정모드 진입불가처리
+		if (!Allowed) return;
+
 		setAllowed(false);
 		setPosts(
 			Posts.map((post, idx) => {
-				if (editIndex === idx) post.enableUpdata = true;
+				if (editIndex === idx) post.enableUpdate = true;
 				return post;
 			})
 		);
 	};
 
 	const disableUpdate = (cancelIndex) => {
-		//수정취소시 다시 Allowed값 true변경해서 수정모드 가능하게 변경
 		setAllowed(true);
 		setPosts(
 			Posts.map((post, idx) => {
-				if (cancelIndex === idx) post.enableUpdata = false;
+				if (cancelIndex === idx) post.enableUpdate = false;
 				return post;
 			})
 		);
 	};
 
-	const updatePost = (upDateIndex) => {
-		if (!refEditInput.current.value.trim() || !refEditTextarea.current.value.trim()) {
-			return alert('제목과 본문을 입력해주세요');
-		}
-		//수정완료시에도 다시 Allowed값 true변경해서 수정모드 가능하게 변경
+	const updatePost = (updateIndex) => {
+		if (!editInput.current.value.trim() || !editTextarea.current.value.trim()) return alert('수정할 글의 제목과 본문을 모두 입력하세요.');
 		setAllowed(true);
 		setPosts(
 			Posts.map((post, idx) => {
-				if (upDateIndex === idx) {
-					post.title = refEditInput.current.value;
-					post.content = refEditTextarea.current.value;
-					post.enableUpdata = false;
+				if (updateIndex === idx) {
+					post.title = editInput.current.value;
+					post.content = editTextarea.current.value;
+					post.enableUpdate = false;
 				}
 				return post;
 			})
@@ -88,32 +84,37 @@ function Comunity() {
 	};
 
 	useEffect(() => {
-		//Posts 데이터가 변경되면 수정모드를 강제로 false처리해서 로컬 저장소에 저장
-		Posts.map((el) => (el.enableUpdata = false));
+		Posts.map((el) => (el.enableUpdate = false));
 		localStorage.setItem('posts', JSON.stringify(Posts));
 		len.current = Posts.length;
 
 		pageNum.current = len.current % perNum.current === 0 ? len.current / perNum.current : parseInt(len.current / perNum.current) + 1;
+
 		setPageNum(pageNum.current);
 	}, [Posts]);
 
 	return (
 		<Layout title={'Community'}>
-			<nav className='pagenation'>
+			<nav className='pagination'>
 				{Array(PageNum)
 					.fill()
 					.map((_, idx) => {
-						return <button key={idx}>{idx + 1}</button>;
+						return (
+							<button key={idx} onClick={() => setCurNum(idx)} className={idx === CurNum ? 'on' : ''}>
+								{idx + 1}
+							</button>
+						);
 					})}
 			</nav>
+
 			<div className='wrap'>
 				<div className='inputBox'>
-					<input type='text' placeholder='title' ref={refInput} />
-					<textarea cols='30' rows='3' placeholder='leave message' ref={refTextarea}></textarea>
+					<input type='text' placeholder='Write Title' ref={refInput} />
+					<textarea cols='30' rows='5' placeholder='Write Content Message' ref={refTextarea}></textarea>
 
 					<nav>
 						<button onClick={resetPost}>
-							<ImCancelCircle fontSize={20} color={'#555'} />
+							<RxReset fontSize={20} color={'#555'} />
 						</button>
 						<button onClick={createPost}>
 							<TfiWrite fontSize={20} color={'#555'} />
@@ -123,41 +124,43 @@ function Comunity() {
 
 				<div className='showBox'>
 					{Posts.map((post, idx) => {
-						//현재시간값이 State에 옮겨담아지는 순간에는 객체값이고
-						//다음번 렌더링 싸이클에서 useEffect에 의해 문자로 변환된다음 로컬저장소에 저장됨
-						//날자값을 받는 첫번째 렌더링 타임에는 날짜값이 객체이므로 split구문에서 오류발생
-						//해결방법은 처음 렌더링을 도는 시점에서 날짜를 강제로 문자화한다음 출력처리
 						const stringDate = JSON.stringify(post.date);
-						const textedDate = stringDate.split('T')[0].split('"')[1].split('-').join('.');
-						if (post.enableUpdata) {
-							// 수정모드
+						// const textedDate = stringDate.split('T')[0].split('"')[1].split('-').join('.');
+						const textedDate = changeText(stringDate.split('T')[0], '.').slice(1);
+
+						if (idx >= perNum.current * CurNum && idx < perNum.current * (CurNum + 1)) {
 							return (
 								<article key={idx}>
-									<div className='txt'>
-										<input type='text' defaultValue={post.title} ref={refEditInput} />
-										<textarea defaultValue={post.content} ref={refEditTextarea}></textarea>
-									</div>
-									<nav>
-										<button onClick={() => disableUpdate(idx)}>Cancle</button>
-										<button onClick={() => updatePost(idx)}>Update</button>
-									</nav>
+									{post.enableUpdate ? (
+										//수정모드
+										<>
+											<div className='txt'>
+												<input type='text' defaultValue={post.title} ref={editInput} />
+												<textarea defaultValue={post.content} ref={editTextarea}></textarea>
+											</div>
+											<nav>
+												<button onClick={() => disableUpdate(idx)}>Cancel</button>
+												<button onClick={() => updatePost(idx)}>Update</button>
+											</nav>
+										</>
+									) : (
+										//출력모드
+										<>
+											<div className='txt'>
+												<h2>{post.title}</h2>
+												<p>{post.content}</p>
+												<span>{textedDate} </span>
+											</div>
+											<nav>
+												<button onClick={() => enableUpdate(idx)}>Edit</button>
+												<button onClick={() => deletePost(idx)}>Delete</button>
+											</nav>
+										</>
+									)}
 								</article>
 							);
 						} else {
-							// 출력모드
-							return (
-								<article key={idx}>
-									<div className='txt'>
-										<h2>{post.title}</h2>
-										<p>{post.content}</p>
-										<span>{textedDate} </span>
-									</div>
-									<nav>
-										<button onClick={() => enableUpdate(idx)}>Edit</button>
-										<button onClick={() => deletePost(idx)}>Delete</button>
-									</nav>
-								</article>
-							);
+							return null;
 						}
 					})}
 				</div>
@@ -168,20 +171,11 @@ function Comunity() {
 
 export default Comunity;
 
-/**
- * Create : 글 작성 "POST"
- * Read : 글 불러오기 "GET"
- * Updated : 글 수정 "PUT"
- * Delete: 글 삭제 "DELETE"
- *
- * RESTful API : DB를 구조적으로 변경하기 위한 개발 방법론
- * 로컬 저장소(LocalStorage) :
- * - 모든 브라우저가 내장하고 있는 경량의 저장공간
- * - 문자값만 저장 가능
- * - 객체값을 문자화(JSON.stringify) 시켜서 저장
- * - 로컬 저장소 값을 가져올 때에는 JSON 형태로 객체로 파싱(JSON.parse)해서 가져옴
- *
- * LocalStorage 메서드
- * 저장하기 : LocalStorage.setItem('키', '문자화된 데이터')
- * 불러오기 : LocalStorage.getItem('키') : 문자값으로 불러오기 때문에 객체 형태로 파싱해야 한다.
- */
+/*
+	글수정 로직 단계
+	1. 각 포스트에서 수정 버튼 클릭시 해당 객체에 enableUpdate=true라는 프로퍼티추가후 state저장
+	2. 반복돌며 렌더링시 반복도는 객체에 enableUpdate값이 true면 제목, 본문을 폼요소 출력하도록 분기처리
+	3. 수정모드일때에는 수정취소, 수정완료 버튼 생성
+	4. 수정취소버튼 클릭시 출력모드로 변경 (enableUpdat=false처리)
+	5. 수정완료버튼 클릭시 수정모드에 있는 value값을 가져와서 state에 저장한뒤 다시 출력모드로 변경처리
+*/
