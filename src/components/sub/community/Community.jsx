@@ -9,7 +9,7 @@ function Comunity() {
 	const refTextarea = useRef(null);
 	const refEditInput = useRef(null);
 	const refEditTextarea = useRef(null);
-	const [allowed, setAllowed] = useState(true)
+	const [allowed, setAllowed] = useState(true);
 
 	const getLocalData = () => {
 		const data = localStorage.getItem('posts');
@@ -36,53 +36,55 @@ function Comunity() {
 	};
 
 	const deletePost = (delIndex) => {
-		if(!window.confirm('정말 해당 게시글을 삭제하겠습니까?')) return;
+		if (!window.confirm('정말 해당 게시글을 삭제하겠습니까?')) return;
 		setPosts(Posts.filter((_, idx) => delIndex !== idx));
 	};
 
 	const enableUpdate = (editIndex) => {
 		// Allowed값이 true일 때만 수정모드 진입가능하게 처리.
-		if(!allowed) return;
+		if (!allowed) return;
 		//일단 수정모드에 진입하면 Allowed값을 false로 변경해서 추가적으로 수정모드 진입불가처리
-		setAllowed(false)
+		setAllowed(false);
 		setPosts(
 			Posts.map((post, idx) => {
-				if(editIndex === idx) post.enableUpdata = true
+				if (editIndex === idx) post.enableUpdata = true;
 				return post;
 			})
-		)
-	}
+		);
+	};
 
 	const disableUpdate = (cancelIndex) => {
 		//수정취소시 다시 Allowed값 true변경해서 수정모드 가능하게 변경
-		setAllowed(true)
+		setAllowed(true);
 		setPosts(
 			Posts.map((post, idx) => {
-				if(cancelIndex === idx) post.enableUpdata = false
+				if (cancelIndex === idx) post.enableUpdata = false;
 				return post;
 			})
-		)
-	}
+		);
+	};
 
 	const updatePost = (upDateIndex) => {
-		if(!refEditInput.current.value.trim() || !refEditTextarea.current.value.trim()) {
-			return alert('제목과 본문을 입력해주세요')
+		if (!refEditInput.current.value.trim() || !refEditTextarea.current.value.trim()) {
+			return alert('제목과 본문을 입력해주세요');
 		}
 		//수정완료시에도 다시 Allowed값 true변경해서 수정모드 가능하게 변경
-		setAllowed(true)
+		setAllowed(true);
 		setPosts(
 			Posts.map((post, idx) => {
-				if(upDateIndex === idx) {
-					post.title = refEditInput.current.value
-					post.content = refEditTextarea.current.value
-					post.enableUpdata = false
+				if (upDateIndex === idx) {
+					post.title = refEditInput.current.value;
+					post.content = refEditTextarea.current.value;
+					post.enableUpdata = false;
 				}
 				return post;
 			})
-		)
-	}
+		);
+	};
 
 	useEffect(() => {
+		//Posts 데이터가 변경되면 수정모드를 강제로 false처리해서 로컬 저장소에 저장
+		Posts.map((el) => (el.enableUpdata = false));
 		localStorage.setItem('posts', JSON.stringify(Posts));
 	}, [Posts]);
 
@@ -104,19 +106,19 @@ function Comunity() {
 				</div>
 
 				<div className='showBox'>
-				{Posts.map((post, idx) => {
-						//현재시간값이 State에 옮겨담아지는 순간에는 객체값이고  
+					{Posts.map((post, idx) => {
+						//현재시간값이 State에 옮겨담아지는 순간에는 객체값이고
 						//다음번 렌더링 싸이클에서 useEffect에 의해 문자로 변환된다음 로컬저장소에 저장됨
 						//날자값을 받는 첫번째 렌더링 타임에는 날짜값이 객체이므로 split구문에서 오류발생
 						//해결방법은 처음 렌더링을 도는 시점에서 날짜를 강제로 문자화한다음 출력처리
 						const stringDate = JSON.stringify(post.date);
 						const textedDate = stringDate.split('T')[0].split('"')[1].split('-').join('.');
-						if(post.enableUpdata) {
+						if (post.enableUpdata) {
 							// 수정모드
 							return (
 								<article key={idx}>
 									<div className='txt'>
-										<input type="text" defaultValue={post.title} ref={refEditInput} />
+										<input type='text' defaultValue={post.title} ref={refEditInput} />
 										<textarea defaultValue={post.content} ref={refEditTextarea}></textarea>
 									</div>
 									<nav>
@@ -125,7 +127,7 @@ function Comunity() {
 									</nav>
 								</article>
 							);
-						}else {
+						} else {
 							// 출력모드
 							return (
 								<article key={idx}>
@@ -141,8 +143,7 @@ function Comunity() {
 								</article>
 							);
 						}
-						}
-					)}
+					})}
 				</div>
 			</div>
 		</Layout>
