@@ -5,25 +5,26 @@ import { useSelector } from 'react-redux';
 
 export default function Department() {
 	const department = useSelector(store => store.memberReducer.members);
+	const history = useSelector(store => store.historyReducer.history);
 	const [title, setTitle] = useState('');
 	// const [department, setDepartment] = useState([]);
-	const [history, setHistory] = useState([]);
+	// const [history, setHistory] = useState([]);
 	const path = useRef(process.env.PUBLIC_URL);
 
-	const fetchDepartment = async () => {
-		const data = await fetch(`${path.current}/DB/history.json`);
-		const json = await data.json();
-		setHistory(json.history);
-	};
+	// const fetchHistory = async () => {
+	// 	const data = await fetch(`${path.current}/DB/history.json`);
+	// 	const json = await data.json();
+	// 	setHistory(json.history);
+	// };
 
-	const fetchHistory = async () => {
-		const data = await fetch(`${path.current}/DB/department.json`);
-		const json = await data.json();
-		setDepartment(json.members);
-	};
+	// const fetchDepartment = async () => {
+	// 	const data = await fetch(`${path.current}/DB/department.json`);
+	// 	const json = await data.json();
+	// 	setDepartment(json.members);
+	// };
 
 	useEffect(() => {
-		fetchDepartment();
+		// fetchDepartment();
 		// fetchHistory();
 	}, []);
 

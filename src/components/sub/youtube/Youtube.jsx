@@ -3,24 +3,25 @@ import Layout from '../../common/layout/Layout';
 import { Link } from 'react-router-dom';
 import './Youtube.scss';
 import { useCustomText } from '../../../hooks/useText';
+import { useSelector } from 'react-redux';
 
 export default function Youtube() {
-	const [vids, setVids] = useState([]);
+	const vids = useSelector(store => store.youtubeReducer.youtube);
 	const shortenText = useCustomText('shorten');
 	const changeText = useCustomText('combined');
 
-	const fetchYoutube = async () => {
-		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
-		const pid = process.env.REACT_APP_PLAYLIST;
-		const num = 10;
-		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
-		const data = await fetch(baseURL);
-		const json = await data.json();
-		setVids(json.items);
-	};
+	// const fetchYoutube = async () => {
+	// 	const api_key = process.env.REACT_APP_YOUTUBE_KEY;
+	// 	const pid = process.env.REACT_APP_PLAYLIST;
+	// 	const num = 10;
+	// 	const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
+	// 	const data = await fetch(baseURL);
+	// 	const json = await data.json();
+	// 	setVids(json.items);
+	// };
 
 	useEffect(() => {
-		fetchYoutube();
+		// fetchYoutube();
 	}, []);
 	return (
 		<Layout title={'Youtube'}>

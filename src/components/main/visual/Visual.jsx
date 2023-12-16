@@ -5,9 +5,11 @@ import { Autoplay } from 'swiper';
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useCustomText } from '../../../hooks/useText';
+import { useSelector } from 'react-redux';
 
 export default function Visual() {
-	const [SlideData, setSlideData] = useState([]);
+	const SlideData = useSelector(store => store.youtubeReducer.youtube);
+	// const [SlideData, setSlideData] = useState([]);
 	const [ActiveIndex, setActiveIndex] = useState(0);
 	const shortenText = useCustomText('shorten');
 
@@ -31,7 +33,7 @@ export default function Visual() {
 
 	useEffect(() => {
 		// fetchData();
-		fetchYoutube();
+		// fetchYoutube();
 	}, []);
 
 	console.log(ActiveIndex);
@@ -61,18 +63,17 @@ export default function Visual() {
 				loop={true}
 				centeredSlides={true}
 				autoplay={{ delay: 2000, disableOnInteraction: true }}
-				onSlideChange={(el) => setActiveIndex(el.realIndex)}
+				onSlideChange={el => setActiveIndex(el.realIndex)}
 				breakpoints={{
 					1000: {
 						slidesPerView: 2,
-						spaceBetween: 50,
+						spaceBetween: 50
 					},
 					1400: {
 						slidesPerView: 3,
-						spaceBetween: 50,
-					},
-				}}
-			>
+						spaceBetween: 50
+					}
+				}}>
 				{SlideData.map((data, idx) => {
 					if (idx >= 5) return null;
 					return (

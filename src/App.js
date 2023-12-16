@@ -22,14 +22,32 @@ function App() {
 	const [IsMenu, setIsMenu] = useState(false);
 	const path = useRef(process.env.PUBLIC_URL);
 
-	const fetchCurrentData = async () => {
+	const fetchDepartment = async () => {
 		const data = await fetch(`${path.current}/DB/department.json`);
 		const json = await data.json();
 		dispatch({ type: 'SET_MEMBERS', payload: json.members });
 	};
 
+	const fetchHistory = async () => {
+		const data = await fetch(`${path.current}/DB/history.json`);
+		const json = await data.json();
+		dispatch({ type: 'SET_HISTORY', payload: json.history });
+	};
+
+	const fetchYoutube = async () => {
+		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
+		const pid = process.env.REACT_APP_PLAYLIST;
+		const num = 10;
+		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
+		const data = await fetch(baseURL);
+		const json = await data.json();
+		dispatch({ type: 'SET_YOUTUBE', payload: json.items });
+	};
+
 	useEffect(() => {
-		fetchCurrentData();
+		fetchDepartment();
+		fetchHistory();
+		fetchYoutube();
 	}, []);
 
 	return (
