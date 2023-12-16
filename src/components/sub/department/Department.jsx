@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
+import { useSelector } from 'react-redux';
 
 export default function Department() {
+	const department = useSelector(store => store.memberReducer.members);
 	const [title, setTitle] = useState('');
-	const [department, setDepartment] = useState([]);
+	// const [department, setDepartment] = useState([]);
 	const [history, setHistory] = useState([]);
 	const path = useRef(process.env.PUBLIC_URL);
 
@@ -22,7 +24,7 @@ export default function Department() {
 
 	useEffect(() => {
 		fetchDepartment();
-		fetchHistory();
+		// fetchHistory();
 	}, []);
 
 	return (

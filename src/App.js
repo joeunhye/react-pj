@@ -12,12 +12,25 @@ import { useMedia } from './hooks/useMedia';
 import './styles/Variable.scss';
 import './styles/Global.scss';
 import { Route, Switch } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Menu from './components/common/menu/Menu';
+import { useDispatch } from 'react-redux';
 
 function App() {
+	const dispatch = useDispatch();
 	const [IsDark, setIsDark] = useState(false);
 	const [IsMenu, setIsMenu] = useState(false);
+	const path = useRef(process.env.PUBLIC_URL);
+
+	const fetchCurrentData = async () => {
+		const data = await fetch(`${path.current}/DB/department.json`);
+		const json = await data.json();
+		dispatch({ type: 'SET_MEMBERS', payload: json.members });
+	};
+
+	useEffect(() => {
+		fetchCurrentData();
+	}, []);
 
 	return (
 		<main className={`wrap ${useMedia()} ${IsDark ? 'dark' : ''}`}>

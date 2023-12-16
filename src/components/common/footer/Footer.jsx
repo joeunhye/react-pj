@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { FaYoutube, FaTwitter } from 'react-icons/fa6';
 import './Footer.scss';
+import { useSelector } from 'react-redux';
 
 export default function Footer() {
+	const MemberData = useSelector(store => store.memberReducer.members);
+	console.log(MemberData);
 	return (
 		<footer>
 			<h1>DecodeLab</h1>
