@@ -75,6 +75,15 @@ const modalReducer = (state = { isOpen: false }, action) => {
 	}
 };
 
-const reducers = combineReducers({ memberReducer, historyReducer, youtubeReducer, modalReducer });
+const menuReducer = (state = { isOpen: false }, action) => {
+	switch (action.type) {
+		case 'SET_MENU':
+			return { ...state, isOpen: action.payload };
+		default:
+			return state;
+	}
+};
+
+const reducers = combineReducers({ memberReducer, historyReducer, youtubeReducer, modalReducer, menuReducer });
 
 export default reducers;

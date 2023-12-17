@@ -1,8 +1,12 @@
 import './Header.scss';
 import { NavLink, Link } from 'react-router-dom';
 import { HiBars4 } from 'react-icons/hi2';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function Header({ isMain, IsDark, setIsDark, IsMenu, setIsMenu }) {
+export default function Header({ isMain, IsDark, setIsDark }) {
+	const dispatch = useDispatch();
+	const menu = useSelector(store => store.menuReducer.isOpen);
+
 	return (
 		<header className={isMain ? 'main' : ''}>
 			<h1>
@@ -45,7 +49,12 @@ export default function Header({ isMain, IsDark, setIsDark, IsMenu, setIsMenu })
 				<div className='ball'></div>
 			</div>
 
-			<HiBars4 fontSize={20} color={'#777'} className='bars' onClick={() => setIsMenu(!IsMenu)} />
+			<HiBars4
+				fontSize={20}
+				color={'#777'}
+				className='bars'
+				onClick={() => dispatch({ type: 'SET_MENU', payload: !menu })}
+			/>
 		</header>
 	);
 }
