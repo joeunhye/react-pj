@@ -1,14 +1,14 @@
 $tablet: 999px;
 $mobile: 539px;
 
-@import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
 
-* {
+*:not(.layout, .layout > h1 > span) {
 	transition: color 1s 0s, background-color 1s 0s;
 }
 
 :root {
-	--baseFont: "Nanum Myeongjo", "arial", "돋움";
+	--baseFont: 'Nanum Myeongjo', 'arial', '돋움';
 	--baseColor: #111;
 	--baseColor-code: 17, 17, 17;
 	--pointColor: hotpink;

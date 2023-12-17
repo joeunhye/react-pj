@@ -4,6 +4,7 @@ import { LuSearch } from 'react-icons/lu';
 import './Gallery.scss';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Modal from '../../common/modal/Modal';
+import { useDispatch } from 'react-redux';
 
 export default function Gallery() {
 	const myID = '199369997@N05';
@@ -12,11 +13,12 @@ export default function Gallery() {
 	let [currentType, setCurrentType] = useState('mine');
 	const refElBtnSet = useRef(null);
 	const refElInput = useRef(null);
-	let [IsOpen, setIsOpen] = useState(false);
+	// let [IsOpen, setIsOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
+	const dispath = useDispatch();
 
 	const fetchGallery = useCallback(
-		async (opt) => {
+		async opt => {
 			const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
 			const key = process.env.REACT_APP_FLICKR_KEY;
 			const method_interest = 'flickr.interestingness.getList';
@@ -47,15 +49,15 @@ export default function Gallery() {
 		[currentType]
 	);
 
-	const activateBtn = (e) => {
+	const activateBtn = e => {
 		const btns = refElBtnSet.current.querySelectorAll('button');
-		btns.forEach((btn) => btn.classList.remove('on'));
+		btns.forEach(btn => btn.classList.remove('on'));
 		if (e.target.nodeName === 'BUTTON') {
 			e.target.classList.add('on');
 		}
 	};
 
-	const handleClickInterest = (e) => {
+	const handleClickInterest = e => {
 		if (e.target.classList.contains('on')) return;
 		setIsUser('');
 		activateBtn(e);
@@ -63,7 +65,7 @@ export default function Gallery() {
 		setCurrentType('interest');
 	};
 
-	const handleClickMine = (e) => {
+	const handleClickMine = e => {
 		if (e.target.classList.contains('on') || isUser === myID) return;
 		setIsUser(myID);
 		activateBtn(e);
@@ -71,7 +73,7 @@ export default function Gallery() {
 		setCurrentType('mine');
 	};
 
-	const handleClickUser = (e) => {
+	const handleClickUser = e => {
 		if (isUser) return;
 		setIsUser(e.target.innerText);
 		activateBtn(e);
@@ -79,7 +81,7 @@ export default function Gallery() {
 		setCurrentType('user');
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = e => {
 		e.preventDefault();
 		const tags = refElInput.current.value;
 		refElInput.current.value = '';
@@ -90,8 +92,9 @@ export default function Gallery() {
 		setCurrentType('search');
 	};
 
-	const handleModal = (idx) => {
-		setIsOpen((IsOpen) => !IsOpen);
+	const handleModal = idx => {
+		// setIsOpen(IsOpen => !IsOpen);
+		dispath({ type: 'SET_MODAL', payload: true });
 		setIndex(idx);
 	};
 
@@ -119,7 +122,11 @@ export default function Gallery() {
 					</form>
 				</article>
 				<div className='frame'>
-					<Masonry elementType={'div'} options={{ transitionDuration: '0.5s' }} disableImagesLoaded={false} updateOnEachImageLoad={false}>
+					<Masonry
+						elementType={'div'}
+						options={{ transitionDuration: '0.5s' }}
+						disableImagesLoaded={false}
+						updateOnEachImageLoad={false}>
 						{Pics.map((pic, idx) => {
 							return (
 								<article key={idx}>
@@ -136,7 +143,7 @@ export default function Gallery() {
 											<img
 												src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
 												alt={pic.owner}
-												onError={(e) => {
+												onError={e => {
 													e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif');
 												}}
 											/>
@@ -151,8 +158,11 @@ export default function Gallery() {
 			</Layout>
 
 			{/* 모달 호출 시 출력 유무를 결정하는 state 값과 state변경 함수를 모달의 props로 전달 - 이유 : 모달의 열고 닫기를 부모가 아닌 자식 컴포넌트에서 결정하게 하기 위함 */}
-			<Modal IsOpen={IsOpen} setIsOpen={setIsOpen}>
-				<img src={`https://live.staticflickr.com/${Pics[Index]?.server}/${Pics[Index]?.id}_${Pics[Index]?.secret}_b.jpg`} alt='pic' />
+			<Modal>
+				<img
+					src={`https://live.staticflickr.com/${Pics[Index]?.server}/${Pics[Index]?.id}_${Pics[Index]?.secret}_b.jpg`}
+					alt='pic'
+				/>
 			</Modal>
 		</>
 	);

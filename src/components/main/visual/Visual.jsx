@@ -13,31 +13,6 @@ export default function Visual() {
 	const [ActiveIndex, setActiveIndex] = useState(0);
 	const shortenText = useCustomText('shorten');
 
-	const path = useRef(process.env.PUBLIC_URL);
-
-	const fetchYoutube = async () => {
-		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
-		const pid = process.env.REACT_APP_PLAYLIST;
-		const num = 10;
-		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
-		const data = await fetch(baseURL);
-		const json = await data.json();
-		setSlideData(json.items);
-	};
-
-	const fetchData = async () => {
-		const data = await fetch(`${path.current}/DB/department.json`);
-		const json = await data.json();
-		setSlideData(json.members);
-	};
-
-	useEffect(() => {
-		// fetchData();
-		// fetchYoutube();
-	}, []);
-
-	console.log(ActiveIndex);
-
 	return (
 		<figure className='myScroll'>
 			<div className='txtBox'>
