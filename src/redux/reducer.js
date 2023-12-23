@@ -51,7 +51,7 @@ const menuReducer = (state = { menu: false }, action) => {
 };
 
 const darkReducer = (state = { dark: false }, action) => {
-  if (action.type === clientAction.menu)
+  if (action.type === clientAction.dark)
     return { ...state, dark: action.payload };
   else return state;
 };
