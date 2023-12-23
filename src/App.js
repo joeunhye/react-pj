@@ -19,8 +19,7 @@ import * as types from './redux/actionType';
 
 function App() {
   const dispatch = useDispatch();
-  useSelector((store) => console.log(store));
-  const [IsDark, setIsDark] = useState(false);
+  const IsDark = useSelector((store) => store.darkReducer.dark);
 
   useEffect(() => {
     Object.keys(types).forEach((actionType) =>
