@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import Modal from '../../common/modal/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import * as types from '../../../redux/actionType';
+import clientAction from '../../../redux/clientActionType';
 
 export default function Gallery() {
   const myID = '199369997@N05';
@@ -14,7 +15,7 @@ export default function Gallery() {
   let [currentType, setCurrentType] = useState('mine');
   const refElBtnSet = useRef(null);
   const refElInput = useRef(null);
-  let [IsOpen, setIsOpen] = useState(false);
+  // let [IsOpen, setIsOpen] = useState(false);
   const [Index, setIndex] = useState(0);
 
   const dispatch = useDispatch();
@@ -108,7 +109,7 @@ export default function Gallery() {
   };
 
   const handleModal = (idx) => {
-    setIsOpen((IsOpen) => !IsOpen);
+    dispatch({ type: clientAction.modal, payload: true });
     setIndex(idx);
   };
 
@@ -176,7 +177,7 @@ export default function Gallery() {
       </Layout>
 
       {/* 모달 호출 시 출력 유무를 결정하는 state 값과 state변경 함수를 모달의 props로 전달 - 이유 : 모달의 열고 닫기를 부모가 아닌 자식 컴포넌트에서 결정하게 하기 위함 */}
-      <Modal IsOpen={IsOpen} setIsOpen={setIsOpen}>
+      <Modal>
         <img
           src={`https://live.staticflickr.com/${Pics[Index]?.server}/${Pics[Index]?.id}_${Pics[Index]?.secret}_b.jpg`}
           alt="pic"

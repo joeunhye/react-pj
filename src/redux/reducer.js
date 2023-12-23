@@ -38,19 +38,19 @@ const historyReducer = (state = { history: [] }, action) => {
   else return state;
 };
 
-const modalReducer = (state = { modal: fasle }, action) => {
+const modalReducer = (state = { modal: false }, action) => {
   if (action.type === clientAction.modal)
     return { ...state, modal: action.payload };
   else return state;
 };
 
-const menuReducer = (state = { menu: fasle }, action) => {
+const menuReducer = (state = { menu: false }, action) => {
   if (action.type === clientAction.menu)
     return { ...state, menu: action.payload };
   else return state;
 };
 
-const darkReducer = (state = { dark: fasle }, action) => {
+const darkReducer = (state = { dark: false }, action) => {
   if (action.type === clientAction.menu)
     return { ...state, dark: action.payload };
   else return state;
