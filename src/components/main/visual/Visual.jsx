@@ -5,95 +5,77 @@ import { Autoplay } from 'swiper';
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useCustomText } from '../../../hooks/useText';
+import { useSelector } from 'react-redux';
 
 export default function Visual() {
-	const [SlideData, setSlideData] = useState([]);
-	const [ActiveIndex, setActiveIndex] = useState(0);
-	const shortenText = useCustomText('shorten');
+  const SlideData = useSelector((store) => store.youtubeReducer.youtube);
+  // console.log(SlideData);
+  const [Index, setIndex] = useState(0);
+  const shortenText = useCustomText('shorten');
 
-	const path = useRef(process.env.PUBLIC_URL);
+  return (
+    <figure className="myScroll">
+      <div className="txtBox">
+        <ul>
+          {SlideData.map((tit, idx) => {
+            if (idx >= 5) return null;
+            return (
+              <li key={idx} className={idx === Index ? 'on' : ''}>
+                <h3>{shortenText(tit.snippet?.title, 50)}</h3>
+                <Link to={`/detail/${tit.id}`}>
+                  <em>View Detail</em>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
 
-	const fetchYoutube = async () => {
-		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
-		const pid = process.env.REACT_APP_PLAYLIST;
-		const num = 10;
-		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
-		const data = await fetch(baseURL);
-		const json = await data.json();
-		setSlideData(json.items);
-	};
+      <Swiper
+        modules={[Autoplay]}
+        spaceBetween={0}
+        slidesPerView={1}
+        loop={true}
+        centeredSlides={true}
+        autoplay={{ delay: 2000, disableOnInteraction: true }}
+        onSlideChange={(el) => setIndex(el.realIndex)}
+        breakpoints={{
+          1000: {
+            slidesPerView: 2,
+            spaceBetween: 50,
+          },
+          1400: {
+            slidesPerView: 3,
+            spaceBetween: 50,
+          },
+        }}
+      >
+        {SlideData.map((data, idx) => {
+          if (idx >= 5) return null;
+          return (
+            <SwiperSlide key={idx}>
+              <div className="pic">
+                <p>
+                  <img
+                    src={data.snippet?.thumbnails.standard.url}
+                    alt={data.snippet?.title}
+                  />
+                </p>
 
-	const fetchData = async () => {
-		const data = await fetch(`${path.current}/DB/department.json`);
-		const json = await data.json();
-		setSlideData(json.members);
-	};
-
-	useEffect(() => {
-		// fetchData();
-		fetchYoutube();
-	}, []);
-
-	console.log(ActiveIndex);
-
-	return (
-		<figure className='myScroll'>
-			<div className='txtBox'>
-				<ul>
-					{SlideData.map((txt, idx) => {
-						if (idx >= 5) return null;
-						return (
-							<li key={idx} className={idx === ActiveIndex ? 'on' : ''}>
-								{/* {txt.name} */}
-								<h3>{shortenText(txt.snippet.title, 50)}</h3>
-								<Link to={`/detail/${txt.id}`}>
-									<em>view Detail</em>
-								</Link>
-							</li>
-						);
-					})}
-				</ul>
-			</div>
-			<Swiper
-				modules={[Autoplay]}
-				spaceBetween={0}
-				slidesPerView={1}
-				loop={true}
-				centeredSlides={true}
-				autoplay={{ delay: 2000, disableOnInteraction: true }}
-				onSlideChange={(el) => setActiveIndex(el.realIndex)}
-				breakpoints={{
-					1000: {
-						slidesPerView: 2,
-						spaceBetween: 50,
-					},
-					1400: {
-						slidesPerView: 3,
-						spaceBetween: 50,
-					},
-				}}
-			>
-				{SlideData.map((data, idx) => {
-					if (idx >= 5) return null;
-					return (
-						<SwiperSlide key={idx}>
-							<div className='pic'>
-								{/* <img src={`${path.current}/img/${data.pic}`} alt='' />
-								<img src={`${path.current}/img/${data.pic}`} alt='' /> */}
-								<p>
-									<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
-								</p>
-								<p>
-									<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
-								</p>
-							</div>
-							<h3>{data.snippet.title}</h3>
-						</SwiperSlide>
-					);
-				})}
-			</Swiper>
-		</figure>
-	);
+                <p>
+                  <img
+                    src={data.snippet?.thumbnails.standard.url}
+                    alt={data.snippet?.title}
+                  />
+                </p>
+              </div>
+              <h3>{data.snippet?.title}</h3>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+    </figure>
+  );
 }
 
 // 리액트 안에서 특정 정보값을 담아주는 선택지
