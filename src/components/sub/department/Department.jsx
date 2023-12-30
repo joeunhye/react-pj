@@ -3,17 +3,19 @@ import Layout from '../../common/layout/Layout';
 import './Department.scss';
 import { useSelector } from 'react-redux';
 import { useMembersQuery } from '../../../hooks/useMembersQuery';
+import { useHistoryQuery } from '../../../hooks/useHistoryQuery';
 
 export default function Department() {
 	// const department = useSelector(store => store.memberReducer.members);
-	const [Num, setNum] = useState(0);
-	const history = useSelector(store => store.historyReducer.history);
+	// const history = useSelector(store => store.historyReducer.history);
 	const [title, setTitle] = useState('');
 	// const [department, setDepartment] = useState([]);
 	// const [history, setHistory] = useState([]);
 	const path = useRef(process.env.PUBLIC_URL);
 
-	const { data } = useMembersQuery(Num); //커스텀훅 호출시 인수로 데이터에서 뽑아낼 데이터의 순번을 전달
+	const { isLoading: memberLoading, isError: memberErr, isSuccess: memberSuccess, data: member } = useMembersQuery();
+
+	const { isSuccess: historySuccess, data: history } = useHistoryQuery();
 
 	// const fetchHistory = async () => {
 	// 	const data = await fetch(`${path.current}/DB/history.json`);
@@ -34,30 +36,30 @@ export default function Department() {
 
 	return (
 		<Layout title={'Department'}>
-			<button onClick={() => setNum(0)}>데이터0 확인</button>
-			<button onClick={() => setNum(1)}>데이터1 확인</button>
 			<section id='historyBox'>
 				<h2>History</h2>
 				<div className='con'>
-					{history.map((data, idx) => {
-						return (
-							<React.Fragment key={idx}>
-								<h2>{Object.keys(data)[0]}</h2>
-								<ul>
-									{Object.values(data)[0].map((val, idx) => (
-										<li key={idx}>{val}</li>
-									))}
-								</ul>
-							</React.Fragment>
-						);
-					})}
+					{historySuccess &&
+						history.map((data, idx) => {
+							return (
+								<React.Fragment key={idx}>
+									<h3>{Object.keys(data)[0]}</h3>
+									<ul>
+										{Object.values(data)[0].map((val, idx) => (
+											<li key={idx}>{val}</li>
+										))}
+									</ul>
+								</React.Fragment>
+							);
+						})}
 				</div>
 			</section>
-			{/* <section id='memberBox'>
+			<section id='memberBox'>
 				<h2>{title.charAt(0).toUpperCase() + title.slice(1)}</h2>
 				<div className='con'>
-					{isSuccess ? (
-						Department.map((member, idx) => {
+					{memberLoading && <p>Loading...</p>}
+					{memberSuccess &&
+						member.map((member, idx) => {
 							return (
 								<article key={idx}>
 									<div className='pic'>
@@ -67,12 +69,10 @@ export default function Department() {
 									<p>{member.position}</p>
 								</article>
 							);
-						})
-					) : (
-						<p>Loading...</p>
-					)}
+						})}
+					{memberErr && <p>Fail to load Data</p>}
 				</div>
-			</section> */}
+			</section>
 		</Layout>
 	);
 }
