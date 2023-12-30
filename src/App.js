@@ -14,9 +14,8 @@ import './styles/Global.scss';
 import { Route, Switch } from 'react-router-dom';
 import { useState } from 'react';
 import Menu from './components/common/menu/Menu';
-import { QueryClient } from '@tanstack/query-core';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function App() {
 	const [IsDark, setIsDark] = useState(false);
