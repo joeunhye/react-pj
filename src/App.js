@@ -12,23 +12,42 @@ import { useMedia } from './hooks/useMedia';
 import './styles/Variable.scss';
 import './styles/Global.scss';
 import { Route, Switch } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Menu from './components/common/menu/Menu';
-import { useDispatch, useSelector } from 'react-redux';
-import * as types from './redux/actionType';
+import { useDispatch } from 'react-redux';
 
 function App() {
   const dispatch = useDispatch();
-  const IsDark = useSelector((store) => store.darkReducer.dark);
+  const [IsDark, setIsDark] = useState(false);
+  // const [IsMenu, setIsMenu] = useState(false);
+  const path = useRef(process.env.PUBLIC_URL);
+
+  const fetchDepartment = async () => {
+    const data = await fetch(`${path.current}/DB/department.json`);
+    const json = await data.json();
+    dispatch({ type: 'SET_MEMBERS', payload: json.members });
+  };
+
+  const fetchHistory = async () => {
+    const data = await fetch(`${path.current}/DB/history.json`);
+    const json = await data.json();
+    dispatch({ type: 'SET_HISTORY', payload: json.history });
+  };
+
+  const fetchYoutube = async () => {
+    const api_key = process.env.REACT_APP_YOUTUBE_KEY;
+    const pid = process.env.REACT_APP_PLAYLIST;
+    const num = 10;
+    const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
+    const data = await fetch(baseURL);
+    const json = await data.json();
+    dispatch({ type: 'SET_YOUTUBE', payload: json.items });
+  };
 
   useEffect(() => {
-    Object.keys(types).forEach((actionType) =>
-      dispatch({ type: types[actionType].start })
-    );
-    // dispatch({ type: types.HISTORY.start });
-    // dispatch({ type: types.DEPARTMENT.start });
-    // dispatch({ type: types.YOUTUBE.start });
-    // dispatch({ type: types.FLICKR.start, Opt: { type: 'interest' } });
+    fetchDepartment();
+    fetchHistory();
+    fetchYoutube();
   }, []);
 
   return (
@@ -36,11 +55,11 @@ function App() {
       {/* 중첩된 라우터로 복수개의 동일한 컴포넌트가 연결될때 처음 연결라우터만 호출하고 나머지는 무시 */}
       <Switch>
         <Route exact path="/">
-          <Header isMain={true} />
+          <Header isMain={true} IsDark={IsDark} setIsDark={setIsDark} />
           <MainWrap />
         </Route>
         <Route path="/">
-          <Header isMain={false} />
+          <Header isMain={false} IsDark={IsDark} setIsDark={setIsDark} />
         </Route>
       </Switch>
       <Route path="/department" component={Department} />
