@@ -2,14 +2,18 @@ import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
 import { useSelector } from 'react-redux';
+import { useMembersQuery } from '../../../hooks/useMembersQuery';
 
 export default function Department() {
-	const department = useSelector(store => store.memberReducer.members);
+	// const department = useSelector(store => store.memberReducer.members);
+	const [Num, setNum] = useState(0);
 	const history = useSelector(store => store.historyReducer.history);
 	const [title, setTitle] = useState('');
 	// const [department, setDepartment] = useState([]);
 	// const [history, setHistory] = useState([]);
 	const path = useRef(process.env.PUBLIC_URL);
+
+	const { data } = useMembersQuery(Num); //커스텀훅 호출시 인수로 데이터에서 뽑아낼 데이터의 순번을 전달
 
 	// const fetchHistory = async () => {
 	// 	const data = await fetch(`${path.current}/DB/history.json`);
@@ -30,6 +34,8 @@ export default function Department() {
 
 	return (
 		<Layout title={'Department'}>
+			<button onClick={() => setNum(0)}>데이터0 확인</button>
+			<button onClick={() => setNum(1)}>데이터1 확인</button>
 			<section id='historyBox'>
 				<h2>History</h2>
 				<div className='con'>
@@ -47,22 +53,26 @@ export default function Department() {
 					})}
 				</div>
 			</section>
-			<section id='memberBox'>
+			{/* <section id='memberBox'>
 				<h2>{title.charAt(0).toUpperCase() + title.slice(1)}</h2>
 				<div className='con'>
-					{department.map((member, idx) => {
-						return (
-							<article key={idx}>
-								<div className='pic'>
-									<img src={`${path.current}/img/${member.pic}`} alt='' />
-								</div>
-								<h3>{member.name}</h3>
-								<p>{member.position}</p>
-							</article>
-						);
-					})}
+					{isSuccess ? (
+						Department.map((member, idx) => {
+							return (
+								<article key={idx}>
+									<div className='pic'>
+										<img src={`${path.current}/img/${member.pic}`} alt={member.name} />
+									</div>
+									<h3>{member.name}</h3>
+									<p>{member.position}</p>
+								</article>
+							);
+						})
+					) : (
+						<p>Loading...</p>
+					)}
 				</div>
-			</section>
+			</section> */}
 		</Layout>
 	);
 }
